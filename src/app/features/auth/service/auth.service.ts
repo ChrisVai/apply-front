@@ -39,13 +39,13 @@ export class AuthService {
       )
       .pipe(
         tap(response => {
-          this._user.set(response.user);
+          this._user.set(response.currentUser);
           this.accessToken.set(response.tokens.access_token);
           this.refreshToken.set(response.tokens.refresh_token);
           //todo à virer debug
-          console.log(response);
-          console.log(response.user);
-          console.log(response.tokens);
+          console.log('response dans authService', response);
+          console.log('response User dans authService', response.currentUser);
+          console.log('response tokens dans AuthService', response.tokens);
         })
       );
   }
