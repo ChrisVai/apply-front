@@ -17,16 +17,15 @@ import { LoginResponseModel } from '../../../../shared/models/loginResponseModel
 })
 export class AuthService {
   private readonly _http: HttpClient = inject(HttpClient);
-  private _user: WritableSignal<UserModel | null> = signal<UserModel | null>(
-    null
-  );
+  private _currentUser: WritableSignal<UserModel | null> =
+    signal<UserModel | null>(null);
   private readonly _apiUrl = environment.apiUrl;
-  private _access_token: WritableSignal<String | null> = signal<String | null>(
+  private _access_token: WritableSignal<string | null> = signal<string | null>(
     null
   );
-  user: Signal<UserModel | null> = this._user.asReadonly();
-  access_token: Signal<String | null> = this._access_token.asReadonly();
-  isConnected: Signal<Boolean> = computed(() => this.user !== null);
+  currentUser: Signal<UserModel | null> = this._currentUser.asReadonly();
+  access_token: Signal<string | null> = this._access_token.asReadonly();
+  isConnected: Signal<Boolean> = computed(() => this.currentUser !== null);
 
   login(email: string, pass: string): Observable<LoginResponseModel> {
     return this._http
@@ -40,8 +39,44 @@ export class AuthService {
       )
       .pipe(
         tap(response => {
-          this._user.set(response.currentUser);
+          this._currentUser.set(response.currentUser);
           this._access_token.set(response.access_token);
+        })
+      );
+  }
+
+  revokeToken(): Observable<LoginResponseModel> {
+    return this._http
+      .post<LoginResponseModel>(
+        this._apiUrl + 'auth/refresh-tokens',
+        { user: this.currentUser() },
+        { withCredentials: true }
+      )
+      .pipe(
+        tap(response => {
+          console.log(
+            'authService/revokeToken: les tokens ont été rafraichis',
+            response.access_token
+          );
+          console.log(
+            'authService/revokeToken: le user a été rafraichi',
+            response.currentUser
+          );
+        })
+      );
+  }
+
+  logout() {
+    return this._http
+      .post<any>(
+        this._apiUrl + '/auth/clear-auth-cookie',
+        {},
+        { withCredentials: true }
+      )
+      .pipe(
+        tap(() => {
+          this._currentUser.set(null);
+          this._access_token.set(null);
         })
       );
   }
