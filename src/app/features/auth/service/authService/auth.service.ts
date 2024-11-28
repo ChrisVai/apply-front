@@ -21,10 +21,11 @@ export class AuthService {
     null
   );
   private readonly _apiUrl = environment.apiUrl;
-
+  private _access_token: WritableSignal<String | null> = signal<String | null>(
+    null
+  );
   user: Signal<UserModel | null> = this._user.asReadonly();
-  accessToken: WritableSignal<String | null> = signal<String | null>(null);
-  refreshToken: WritableSignal<String | null> = signal<String | null>(null);
+  access_token: Signal<String | null> = this._access_token.asReadonly();
   isConnected: Signal<Boolean> = computed(() => this.user !== null);
 
   login(email: string, pass: string): Observable<LoginResponseModel> {
@@ -40,12 +41,7 @@ export class AuthService {
       .pipe(
         tap(response => {
           this._user.set(response.currentUser);
-          this.accessToken.set(response.tokens.access_token);
-          this.refreshToken.set(response.tokens.refresh_token);
-          //todo à virer debug
-          console.log('response dans authService', response);
-          console.log('response User dans authService', response.currentUser);
-          console.log('response tokens dans AuthService', response.tokens);
+          this._access_token.set(response.access_token);
         })
       );
   }
