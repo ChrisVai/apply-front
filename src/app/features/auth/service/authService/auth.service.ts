@@ -7,10 +7,10 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../../environments/environment.development';
 import { Observable, tap } from 'rxjs';
-import { UserModel } from '../../../shared/models/userModel';
-import { LoginResponseModel } from '../../../shared/models/loginResponseModel';
+import { UserModel } from '../../../../shared/models/userModel';
+import { LoginResponseModel } from '../../../../shared/models/loginResponseModel';
 
 @Injectable({
   providedIn: 'root',
