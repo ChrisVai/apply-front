@@ -9,7 +9,7 @@
       <div>
         <label for="email" class="block text-sm/6 font-medium text-app-primaryFontColor-900">Adresse email</label>
         <div class="mt-2">
-          <input id="email" name="email" type="email" autocomplete="email" formControlName="email" required class="block w-full rounded-md border-0 py-1.5 px-3 text-app-primaryFontColor-900 shadow-sm ring-1 ring-inset ring-app-blue placeholder:text-app-primaryFontColor-400 focus:ring-2 focus:ring-inset focus:ring-app-blue-600 sm:text-sm/6">
+          <input id="email" name="email" type="email" autocomplete="email" formControlName="email" required class="block w-full rounded-md border-0 py-1.5 px-3 text-app-primaryFontColor-900 shadow-sm ring-1 ring-inset placeholder:text-app-primaryFontColor-400 sm:text-sm/6" [ngClass]="{'ring-app-orange': isInvalidMail(), 'ring-app-blue': !isInvalidMail()}">
         </div>
       </div>
 
@@ -21,13 +21,16 @@
           </div>
         </div>
         <div class="mt-2">
-          <input id="password" name="password" type="password" formControlName="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 px-3 text-app-primaryFontColor-900 shadow-sm ring-1 ring-inset ring-app-blue placeholder:text-app-primaryFontColor-400 focus:ring-2 focus:ring-inset focus:ring-offset-app-blue-600 sm:text-sm/6">
+          <input id="password" name="password" type="password" formControlName="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 px-3 text-app-primaryFontColor-900 shadow-sm ring-1 ring-inset ring-app-blue placeholder:text-app-primaryFontColor-400 sm:text-sm/6" [ngClass]="{'ring-app-orange': isInvalidPassword(), 'ring-app-blue': !isInvalidPassword()}">
         </div>
       </div>
 
       <div>
-        <button type="submit" (click)="login()" class="flex w-full justify-center rounded-md bg-app-blue px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Connexion</button>
+        <button type="submit" (click)="login()" [disabled]="isInvalidForm()" class="flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" [ngClass]="{'bg-app-lightGrey cursor-not-allowed': isInvalidForm(), 'bg-app-blue': !isInvalidForm()}">Connexion</button>
       </div>
     </form>
   </div>
 </div>
+<p>email invalide: {{isInvalidMail()}}</p>
+<p>password invalide: {{isInvalidPassword()}}</p>
+<p>formulaire invalide :{{isInvalidForm()}}</p>
