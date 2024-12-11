@@ -1,5 +1,6 @@
 import {
   computed,
+  DestroyRef,
   inject,
   Injectable,
   Signal,
@@ -8,17 +9,19 @@ import {
 } from '@angular/core';
 import { HttpBackend, HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment.development';
-import { Observable, tap } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 import { UserModel } from '../../../../shared/models/userModel';
 import { LoginResponseModel } from '../../../../shared/models/loginResponseModel';
 import { StorageService } from '../../../../shared/services/storage/storage.service';
 import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private readonly _handler: HttpBackend = inject(HttpBackend);
+  //Use _httpWithHandler to bypass Interceptor when we don't want to add access_token to the request
   private readonly _httpWithHandler: HttpClient = new HttpClient(this._handler);
   private readonly _http: HttpClient = inject(HttpClient);
   private readonly _storageService: StorageService = inject(StorageService);
@@ -26,6 +29,7 @@ export class AuthService {
   private _currentUser: WritableSignal<UserModel | null> =
     signal<UserModel | null>(null);
   private readonly _apiUrl = environment.apiUrl;
+  private readonly _destroyRef: DestroyRef = inject(DestroyRef);
   private _access_token: WritableSignal<string | null> = signal<string | null>(
     null
   );
@@ -64,36 +68,30 @@ export class AuthService {
       )
       .pipe(
         tap(response => {
-          console.log(
-            'authService/reNewTokens: les tokens ont été rafraichis',
-            response.access_token
-          );
           this._access_token.set(response.access_token);
-          console.log(
-            'authService/reNewTokens: le user a été rafraichi',
-            response.currentUser
-          );
           this._currentUser.set(response.currentUser);
         })
       );
   }
 
   logout() {
-    console.log('passage dans logout authService');
     this._currentUser.set(null);
     this._access_token.set(null);
     this._storageService.deleteUserId();
-    //this._router.navigateByUrl('/auth');
     return this._httpWithHandler
-      .post<any>(
+      .post(
         this._apiUrl + '/auth/clear-auth-cookie',
         {},
         { withCredentials: true }
       )
       .pipe(
-        tap(() => {
-          console.log('tap dans la requette logout du service');
+        takeUntilDestroyed(this._destroyRef),
+        catchError(() => {
+          return throwError(
+            () => new Error('sorry an error occured when logout')
+          );
         })
-      );
+      )
+      .subscribe(() => this._router.navigateByUrl('/auth'));
   }
 }
