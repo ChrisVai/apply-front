@@ -20,7 +20,6 @@ export function authInterceptor(
   const newReq = req.clone({
     headers: authHeaders,
   });
-  console.log('pasage dans authInterceptor');
   if (!access_token() || access_token() === null) {
     return next(req).pipe(
       catchError((error: HttpErrorResponse) => {
