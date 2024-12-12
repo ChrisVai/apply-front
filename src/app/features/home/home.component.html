@@ -1,0 +1,26 @@
+<p>home works!</p>
+@if(currentUser(); as currentUser) {
+  <p>{{currentUser.firstName}}</p>
+  <p>{{currentUser.id}}</p>
+} @else {
+  <p>pas de currentUser</p>
+}
+
+@if(accessToken(); as access) {
+  <p>{{access}}</p>
+} @else {
+  <p>pas d'access token</p>
+}
+
+@if(application?.(); as application) {
+  <p>{{application}}</p>
+} @else {
+  <p>aucune application</p>
+}
+
+@if(isConnected(); as isco) {
+  <p>{{isco}}</p>
+} @else {
+  <p>pas connecté</p>
+}
+
