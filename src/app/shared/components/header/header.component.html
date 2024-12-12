@@ -1,6 +1,6 @@
-<div class="flex justify-between p-3 shadow-2xl">
+<div class="flex justify-between p-3 shadow-md">
   <img ngSrc="./assets/apply-logo.png" height="75" width="75" alt="apply logo" priority>
   @if(isConnected()) {
-    <app-button (click)="logout()" class= "self-center" ariaLabel="Se déconnecter" btnLabel="Déconnexion"></app-button>
+    <app-button (click)="logout()" class= "self-center" ariaLabel="Se déconnecter" btnLabel="Déconnexion" [color]="btnColorPalette.blue"></app-button>
   }
 </div>
