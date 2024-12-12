@@ -7,21 +7,26 @@
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
     <form [formGroup]="authForm" class="space-y-6">
       <div>
-        <label for="email" class="block text-sm/6 font-medium text-app-primaryFontColor-900">Adresse email</label>
+        <div class="flex items-center justify-between">
+          <label for="email" class="block text-sm/6 font-medium text-app-primaryFontColor-900">Adresse email</label>
+          @if(isInvalidMail()) {
+            <div class="text-app-orange text-xs font-light">Veuillez saisir une adresse email valide</div>
+          }
+        </div>
         <div class="mt-2">
-          <input id="email" name="email" type="email" autocomplete="email" formControlName="email" required class="block w-full rounded-md border-0 py-1.5 px-3 text-app-primaryFontColor-900 shadow-sm ring-1 ring-inset placeholder:text-app-primaryFontColor-400 sm:text-sm/6" [ngClass]="{'ring-app-orange': isInvalidMail(), 'ring-app-blue': !isInvalidMail()}">
+          <input id="email" name="email" type="email" autocomplete="email" formControlName="email" required class="block w-full rounded-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue placeholder:text-app-primaryFontColor-400 sm:text-sm/6" [ngClass]="{'ring-app-orange, text-app-orange': isInvalidMail(), 'ring-app-blue, text-app-blue': !isInvalidMail()}">
         </div>
       </div>
 
       <div>
         <div class="flex items-center justify-between">
           <label for="password" class="block text-sm/6 font-medium text-app-primaryFontColor-900">Mot de passe</label>
-          <div class="text-sm">
-            <a href="#" class="font-semibold text-app-blue-600 hover:text-app-blue-500">Mot de passe oublié ?</a>
-          </div>
+          @if(isInvalidPassword()) {
+            <div class="text-app-orange text-xs font-light">Veuillez saisir un mot de passe</div>
+          }
         </div>
         <div class="mt-2">
-          <input id="password" name="password" type="password" formControlName="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 px-3 text-app-primaryFontColor-900 shadow-sm ring-1 ring-inset ring-app-blue placeholder:text-app-primaryFontColor-400 sm:text-sm/6" [ngClass]="{'ring-app-orange': isInvalidPassword(), 'ring-app-blue': !isInvalidPassword()}">
+          <input id="password" name="password" type="password" formControlName="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 px-3 text-app-blue shadow-sm ring-1 ring-inset ring-app-blue placeholder:text-app-primaryFontColor-400 sm:text-sm/6" [ngClass]="{'ring-app-orange': isInvalidPassword(), 'ring-app-blue': !isInvalidPassword()}">
         </div>
       </div>
 
@@ -31,6 +36,3 @@
     </form>
   </div>
 </div>
-<p>email invalide: {{isInvalidMail()}}</p>
-<p>password invalide: {{isInvalidPassword()}}</p>
-<p>formulaire invalide :{{isInvalidForm()}}</p>
