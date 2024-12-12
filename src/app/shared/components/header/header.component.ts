@@ -2,6 +2,7 @@ import { Component, inject, Input, Signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { ButtonComponent } from '../button/button.component';
 import { AuthService } from '../../../features/auth/service/authService/auth.service';
+import { btnColorPalette } from '../../enum/btnColorPalette';
 
 @Component({
   selector: 'app-header',
@@ -18,4 +19,6 @@ export class HeaderComponent {
     console.log('passage dans logout header');
     this.authService.logout();
   }
+
+  protected readonly btnColorPalette = btnColorPalette;
 }

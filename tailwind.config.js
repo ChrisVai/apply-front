@@ -16,7 +16,11 @@ module.exports = {
       'app-yellow': '#F2B138',
       'app-orange': '#F25922',
     },
-    extend: {},
+    extend: {
+      padding: {
+        'main-padding': '2%',
+      },
+    },
   },
   plugins: [],
 };
