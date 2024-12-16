@@ -1,7 +1,7 @@
 import { ApplicationModel } from './applicationModel';
 
 export interface UserModel {
-  id: number;
+  id?: number;
   firstName?: string;
   lastName?: string;
   email: string;
