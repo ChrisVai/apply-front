@@ -2,14 +2,14 @@ import { Component, computed, DestroyRef, inject, Signal } from '@angular/core';
 import { NgClass, NgOptimizedImage } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../service/authService/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [NgOptimizedImage, ReactiveFormsModule, NgClass],
+  imports: [NgOptimizedImage, ReactiveFormsModule, NgClass, RouterLink],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',
 })
