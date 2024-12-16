@@ -54,7 +54,7 @@ export class AuthService {
         tap(response => {
           this._currentUser.set(response.currentUser);
           this._access_token.set(response.access_token);
-          this._storageService.saveUserId(response.currentUser.id);
+          this._storageService.saveUserId(response.currentUser.id!);
         })
       );
   }
