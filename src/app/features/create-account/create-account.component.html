@@ -1,0 +1,43 @@
+@if(!isCreated()) {
+  <div class="flex justify-center">
+    <div class="flex w-1/2 flex-col items-center justify-center px-6 py-12 lg:px-8 rounded-xl shadow-lg bg-app-veryLightGrey">
+      <h1 class="text-xl font-bold">Créez votre compte</h1>
+      <div class="mt-10 w-3/4">
+        <form [formGroup]="createForm" class="space-y-6">
+          <div class="flex items-center">
+            <label for="firstName" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor-900 py-1.5 px-3 bg-app-blue/25">Prénom</label>
+            <input id="firstName" name="firstName" type="text" formControlName="firstName" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6">
+          </div>
+          <div class="flex items-center">
+            <label for="lastName" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor-900 py-1.5 px-3 bg-app-blue/25 whitespace-nowrap">Nom</label>
+            <input id="lastName" name="lastName" type="text" formControlName="lastName" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6">
+          </div>
+          <div class="flex items-center">
+            <label for="email" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor-900 py-1.5 px-3 bg-app-blue/25 whitespace-nowrap">Adresse email</label>
+            <input id="email" name="email" type="email" formControlName="email" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6">
+          </div>
+          <div class="flex items-center">
+            <label for="password" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor-900 py-1.5 px-3 bg-app-blue/25 whitespace-nowrap">Mot de passe</label>
+            <input id="password" name="password" type="text" formControlName="password" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6">
+          </div>
+          <div class="flex items-center">
+            <label for="repeatPassword" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor-900 py-1.5 px-3 bg-app-blue/25 whitespace-nowrap">Répéter le mot de passe</label>
+            <input id="repeatPassword" name="repeatPassword" type="text" formControlName="repeatPassword" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6">
+          </div>
+          <div class="justify-self-center">
+            <button type="submit" (click)="send()" class="rounded-md px-3 py-1.5 text-sm/6 font-semibold text-white shadow-md bg-app-blue">S'inscrire</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="flex justify-center min-h-96">
+    <div class="flex flex-col justify-evenly items-center bg-app-veryLightGrey w-1/3 rounded-xl shadow-xl">
+      <svg class="border-2 border-app-green rounded-full drop-shadow-lg" xmlns="http://www.w3.org/2000/svg" height="92px" viewBox="0 -960 960 960" width="92px" fill="#0FA650"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/></svg>
+      <p class="text-lg">Utilisateur créé avec succès</p>
+      <app-button [routerLink]="['/auth']" ariaLabel="Se connecter" btnLabel="Se connecter" [color]="btnColorPalette.blue"></app-button>
+    </div>
+  </div>
+}
+
