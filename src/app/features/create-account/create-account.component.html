@@ -6,28 +6,32 @@
         <form [formGroup]="createForm" class="space-y-6">
           <div class="flex items-center">
             <label for="firstName" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor-900 py-1.5 px-3 bg-app-blue/25">Prénom</label>
-            <input id="firstName" name="firstName" type="text" formControlName="firstName" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6">
+            <input id="firstName" name="firstName" type="text" formControlName="firstName" required placeholder="John" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue">
           </div>
           <div class="flex items-center">
             <label for="lastName" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor-900 py-1.5 px-3 bg-app-blue/25 whitespace-nowrap">Nom</label>
-            <input id="lastName" name="lastName" type="text" formControlName="lastName" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6">
+            <input id="lastName" name="lastName" type="text" formControlName="lastName" required placeholder="Doe" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue">
           </div>
           <div class="flex items-center">
-            <label for="email" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor-900 py-1.5 px-3 bg-app-blue/25 whitespace-nowrap">Adresse email</label>
-            <input id="email" name="email" type="email" formControlName="email" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6">
+            <label for="email" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor-900 py-1.5 px-3 bg-app-blue/25 whitespace-nowrap">Adresse email*</label>
+            <input id="email" name="email" type="email" formControlName="email" required placeholder="john.doe@email.com" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6" [ngClass]="{'text-app-orange': isInvalidMail(), 'text-app-blue': !isInvalidMail()}">
           </div>
           <div class="flex items-center">
-            <label for="password" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor-900 py-1.5 px-3 bg-app-blue/25 whitespace-nowrap">Mot de passe</label>
-            <input id="password" name="password" type="text" formControlName="password" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6">
+            <label for="password" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor-900 py-1.5 px-3 bg-app-blue/25 whitespace-nowrap">Mot de passe*</label>
+            <input id="password" name="password" type="password" formControlName="password" required placeholder="Votre mot de passe" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue">
           </div>
           <div class="flex items-center">
-            <label for="repeatPassword" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor-900 py-1.5 px-3 bg-app-blue/25 whitespace-nowrap">Répéter le mot de passe</label>
-            <input id="repeatPassword" name="repeatPassword" type="text" formControlName="repeatPassword" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6">
+            <label for="repeatPassword" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor-900 py-1.5 px-3 bg-app-blue/25 whitespace-nowrap">Répéter le mot de passe*</label>
+            <input id="repeatPassword" name="repeatPassword" type="password" formControlName="repeatPassword" required placeholder="Répétez votre mot de passe" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue">
           </div>
-          <div class="justify-self-center">
-            <button type="submit" (click)="send()" class="rounded-md px-3 py-1.5 text-sm/6 font-semibold text-white shadow-md bg-app-blue">S'inscrire</button>
+          <div class="flex flex-col gap-4 items-center">
+            @if (isNotSamePassword) {
+              <p class="text-app-orange text-sm">Les deux mots de passe ne correspondent pas</p>
+            }
+            <button type="submit" (click)="send()" [disabled]="isInvalidForm()" class="rounded-md px-3 py-1.5 mt-5 text-sm/6 font-semibold text-white shadow-md bg-app-blue" [ngClass]="{'bg-app-lightGrey cursor-not-allowed': isInvalidForm(), 'bg-app-blue': !isInvalidForm()}">S'inscrire</button>
           </div>
         </form>
+        <p class="text-xs mt-5">Les champs marqués d'un * sont obligatoires</p>
       </div>
     </div>
   </div>
@@ -40,4 +44,3 @@
     </div>
   </div>
 }
-
