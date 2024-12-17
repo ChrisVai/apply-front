@@ -24,7 +24,7 @@ export class AuthComponent {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
   });
-
+  isConnected: Signal<boolean> = this._authService.isConnected;
   isInvalidMail: Signal<boolean | undefined> = toSignal(
     this.authForm.controls.email.statusChanges.pipe(
       map(
