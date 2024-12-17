@@ -3,11 +3,12 @@ import { NgOptimizedImage } from '@angular/common';
 import { ButtonComponent } from '../button/button.component';
 import { AuthService } from '../../../features/auth/service/authService/auth.service';
 import { btnColorPalette } from '../../enum/btnColorPalette';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [NgOptimizedImage, ButtonComponent],
+  imports: [NgOptimizedImage, ButtonComponent, RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
