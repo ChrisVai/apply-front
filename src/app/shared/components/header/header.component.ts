@@ -12,13 +12,11 @@ import { btnColorPalette } from '../../enum/btnColorPalette';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  private readonly authService: AuthService = inject(AuthService);
-  isConnected: Signal<boolean> = this.authService.isConnected;
+  private readonly _authService: AuthService = inject(AuthService);
+  protected readonly btnColorPalette = btnColorPalette;
+  isConnected: Signal<boolean> = this._authService.isConnected;
 
   logout() {
-    console.log('passage dans logout header');
-    this.authService.logout();
+    this._authService.logout();
   }
-
-  protected readonly btnColorPalette = btnColorPalette;
 }
