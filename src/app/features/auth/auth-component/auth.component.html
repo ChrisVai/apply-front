@@ -1,32 +1,32 @@
 @if(!isConnected()){
   <div class="flex justify-center">
-    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-app-veryLightGrey w-1/3 rounded-xl shadow-xl">
+    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-app-blue-100 w-1/3 rounded-xl shadow-xl">
       <div class="flex flex-col items-center sm:mx-auto sm:w-full sm:max-w-sm">
         <img ngSrc="assets/apply-logo.png" alt="Your Company" height="92" width="92" priority>
-        <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-app-primaryFontColor-900">Connectez-vous</h2>
+        <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-app-primaryFontColor">Connectez-vous</h2>
       </div>
       <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form [formGroup]="authForm" class="space-y-6">
           <div>
             <div class="flex items-center justify-between">
-              <label for="email" class="block text-sm/6 font-medium text-app-primaryFontColor-900">Adresse email</label>
+              <label for="email" class="block text-sm/6 font-medium text-app-primaryFontColor">Adresse email</label>
               @if(isInvalidMail()) {
-                <div class="text-app-orange text-xs font-light">Veuillez saisir une adresse email valide</div>
+                <div class="text-app-red-600 text-xs font-light">Veuillez saisir une adresse email valide</div>
               }
             </div>
             <div class="mt-2">
-              <input id="email" name="email" type="email" autocomplete="email" formControlName="email" required class="block w-full rounded-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue placeholder:text-app-primaryFontColor-400 sm:text-sm/6" [ngClass]="{'ring-app-orange, text-app-orange': isInvalidMail(), 'ring-app-blue, text-app-blue': !isInvalidMail()}">
+              <input id="email" name="email" type="email" autocomplete="email" formControlName="email" required class="block w-full rounded-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-300 placeholder:text-app-primaryFontColor sm:text-sm/6" [ngClass]="{'ring-app-red-600, text-app-orange': isInvalidMail(), 'ring-app-blue-300, text-app-blue-400': !isInvalidMail()}">
             </div>
           </div>
           <div>
             <div class="flex items-center justify-between">
-              <label for="password" class="block text-sm/6 font-medium text-app-primaryFontColor-900">Mot de passe</label>
+              <label for="password" class="block text-sm/6 font-medium text-app-primaryFontColor">Mot de passe</label>
               @if(isInvalidPassword()) {
-                <div class="text-app-orange text-xs font-light">Veuillez saisir un mot de passe</div>
+                <div class="text-app-red-600 text-xs font-light">Veuillez saisir un mot de passe</div>
               }
             </div>
             <div class="mt-2">
-              <input id="password" name="password" type="password" formControlName="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 px-3 text-app-blue shadow-sm ring-1 ring-inset ring-app-blue placeholder:text-app-primaryFontColor-400 sm:text-sm/6" [ngClass]="{'ring-app-orange': isInvalidPassword(), 'ring-app-blue': !isInvalidPassword()}">
+              <input id="password" name="password" type="password" formControlName="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 px-3 text-app-blue shadow-sm ring-1 ring-inset ring-app-blue-300 placeholder:text-app-primaryFontColor sm:text-sm/6" [ngClass]="{'ring-app-red-600': isInvalidPassword(), 'ring-app-blue-400, text-app-blue-400': !isInvalidPassword()}">
             </div>
           </div>
           <div>
