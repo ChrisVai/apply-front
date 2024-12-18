@@ -3,6 +3,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { ButtonComponent } from '../button/button.component';
 import { AuthService } from '../../../features/auth/service/authService/auth.service';
 import { RouterLink } from '@angular/router';
+import { UserModel } from '../../models/userModel';
 
 @Component({
   selector: 'app-header',
@@ -14,6 +15,7 @@ import { RouterLink } from '@angular/router';
 export class HeaderComponent {
   private readonly _authService: AuthService = inject(AuthService);
   isConnected: Signal<boolean> = this._authService.isConnected;
+  currentUser: Signal<UserModel | null> = this._authService.currentUser;
 
   logout() {
     this._authService.logout();
