@@ -1,32 +1,32 @@
 @if(!isCreated()) {
   <div class="flex justify-center">
-    <div class="flex w-1/2 flex-col items-center justify-center px-6 py-12 lg:px-8 rounded-xl shadow-lg bg-app-veryLightGrey">
+    <div class="flex w-1/2 flex-col items-center justify-center px-6 py-12 lg:px-8 rounded-xl shadow-lg bg-app-blue-100">
       <h1 class="text-xl font-bold">Créez votre compte</h1>
       <div class="mt-10 w-3/4">
         <form [formGroup]="createForm" class="space-y-6">
           <div class="flex items-center">
-            <label for="firstName" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor-900 py-1.5 px-3 bg-app-blue/25">Prénom</label>
-            <input id="firstName" name="firstName" type="text" formControlName="firstName" required placeholder="John" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue">
+            <label for="firstName" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Prénom</label>
+            <input id="firstName" name="firstName" type="text" formControlName="firstName" required placeholder="John" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
           </div>
           <div class="flex items-center">
-            <label for="lastName" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor-900 py-1.5 px-3 bg-app-blue/25 whitespace-nowrap">Nom</label>
-            <input id="lastName" name="lastName" type="text" formControlName="lastName" required placeholder="Doe" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue">
+            <label for="lastName" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Nom</label>
+            <input id="lastName" name="lastName" type="text" formControlName="lastName" required placeholder="Doe" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
           </div>
           <div class="flex items-center">
-            <label for="email" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor-900 py-1.5 px-3 bg-app-blue/25 whitespace-nowrap">Adresse email*</label>
-            <input id="email" name="email" type="email" formControlName="email" required placeholder="john.doe@email.com" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6" [ngClass]="{'text-app-orange': isInvalidMail(), 'text-app-blue': !isInvalidMail()}">
+            <label for="email" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Adresse email*</label>
+            <input id="email" name="email" type="email" formControlName="email" required placeholder="john.doe@email.com" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6" [ngClass]="{'text-app-red-600': isInvalidMail(), 'text-app-blue-400': !isInvalidMail()}">
           </div>
           <div class="flex items-center">
-            <label for="password" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor-900 py-1.5 px-3 bg-app-blue/25 whitespace-nowrap">Mot de passe*</label>
-            <input id="password" name="password" type="password" formControlName="password" required placeholder="Votre mot de passe" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue">
+            <label for="password" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Mot de passe*</label>
+            <input id="password" name="password" type="password" formControlName="password" required placeholder="Votre mot de passe" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
           </div>
           <div class="flex items-center">
-            <label for="repeatPassword" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor-900 py-1.5 px-3 bg-app-blue/25 whitespace-nowrap">Répéter le mot de passe*</label>
-            <input id="repeatPassword" name="repeatPassword" type="password" formControlName="repeatPassword" required placeholder="Répétez votre mot de passe" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue/25 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue">
+            <label for="repeatPassword" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Répéter le mot de passe*</label>
+            <input id="repeatPassword" name="repeatPassword" type="password" formControlName="repeatPassword" required placeholder="Répétez votre mot de passe" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
           </div>
           <div class="flex flex-col gap-4 items-center">
             @if (isNotSamePassword) {
-              <p class="text-app-orange text-sm">Les deux mots de passe ne correspondent pas</p>
+              <p class="text-app-red-600 text-sm">Les deux mots de passe ne correspondent pas</p>
             }
             <app-button type="submit" (click)="send()" [disabled]="isInvalidForm()" ariaLabel="Valider" btnLabel="Valider" />
           </div>
@@ -37,8 +37,8 @@
   </div>
 } @else {
   <div class="flex justify-center min-h-96">
-    <div class="flex flex-col justify-evenly items-center bg-app-veryLightGrey w-1/3 rounded-xl shadow-xl">
-      <svg class="border-2 border-app-green rounded-full drop-shadow-lg" xmlns="http://www.w3.org/2000/svg" height="92px" viewBox="0 -960 960 960" width="92px" fill="#0FA650"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/></svg>
+    <div class="flex flex-col justify-evenly items-center bg-app-blue-100 w-1/3 rounded-xl shadow-xl">
+      <svg class="border-2 border-app-green-600 rounded-full drop-shadow-lg" xmlns="http://www.w3.org/2000/svg" height="92px" viewBox="0 -960 960 960" width="92px" fill="#0FA650"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/></svg>
       <p class="text-lg">Utilisateur créé avec succès</p>
       <app-button [routerLink]="['/auth']" ariaLabel="Se connecter" btnLabel="Se connecter"></app-button>
     </div>
