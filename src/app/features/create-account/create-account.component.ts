@@ -18,7 +18,6 @@ import { UserService } from '../../shared/services/user/user.service';
 import { UserModel } from '../../shared/models/userModel';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-import { btnColorPalette } from '../../shared/enum/btnColorPalette';
 import { map } from 'rxjs';
 import { NgClass } from '@angular/common';
 
@@ -39,7 +38,6 @@ export class CreateAccountComponent {
   private readonly _fb: FormBuilder = inject(FormBuilder);
   private readonly _userService: UserService = inject(UserService);
   private readonly _destroyRef: DestroyRef = inject(DestroyRef);
-  protected readonly btnColorPalette = btnColorPalette;
   createForm = this._fb.nonNullable.group({
     firstName: [''],
     lastName: [''],
