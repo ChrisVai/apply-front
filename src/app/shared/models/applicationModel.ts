@@ -1,5 +1,5 @@
-import {CompanyModel} from "./companyModel";
-import {UserModel} from "./userModel";
+import { CompanyModel } from './companyModel';
+import { UserModel } from './userModel';
 
 export enum RecruiterResponse {
   no = 'Négative',
@@ -16,12 +16,12 @@ export enum Status {
 }
 
 export interface ApplicationModel {
-  id: number;
-  Company: CompanyModel;
+  id?: number;
+  companyId: number;
   offerUrl?: string;
   applied: boolean;
   appliedOn?: Date;
   recruiterResponse?: RecruiterResponse;
   status: Status;
-  user: UserModel;
+  userId: number;
 }
