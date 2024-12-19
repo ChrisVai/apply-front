@@ -1,5 +1,5 @@
 export interface CompanyModel {
-  id: number;
+  id?: number;
   name: string;
   websiteUrl?: string;
   postalAddress?: string;
