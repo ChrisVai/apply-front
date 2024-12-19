@@ -1,0 +1,25 @@
+<div class="bg-app-blue-100 rounded-xl drop-shadow-md p-5">
+  <h2 class="mb-3">Ajouter une entreprise</h2>
+  <form [formGroup]="addCompanyForm" class="space-y-3 mb-5">
+    <div class="flex items-center">
+      <label for="companyName" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Nom</label>
+      <input id="companyName" name="companyName" type="text" formControlName="name" required placeholder="Nom de l'entreprise" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+    </div>
+    <div class="flex items-center">
+      <label for="websiteUrl" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Nom</label>
+      <input id="websiteUrl" name="websiteUrl" type="text" formControlName="websiteUrl" placeholder="Site internet" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+    </div>
+    <div class="flex items-center">
+      <label for="postalAddress" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Adresse</label>
+      <input id="postalAddress" name="postalAddress" type="text" formControlName="postalAddress" placeholder="Adresse" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+    </div>
+    <div class="flex items-center">
+      <label for="emailContactAddress" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Mail</label>
+      <input id="emailContactAddress" name="emailContactAddress" type="text" formControlName="emailContactAddress" placeholder="Mail de contact" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+    </div>
+  </form>
+  <div class="flex justify-evenly">
+    <app-button ariaLabel="Ajouter une entreprise" btnLabel="Ajouter"/>
+    <app-button (click)="closeAddCompanyForm()" ariaLabel="fermer" btnLabel="fermer" class=""/>
+  </div>
+</div>
