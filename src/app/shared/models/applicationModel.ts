@@ -1,6 +1,3 @@
-import { CompanyModel } from './companyModel';
-import { UserModel } from './userModel';
-
 export enum RecruiterResponse {
   no = 'Négative',
   yes = 'Positive',
