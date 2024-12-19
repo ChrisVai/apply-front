@@ -1,9 +1,12 @@
 <div class="flex gap-5">
-  <app-add-application (showAddCompanyFormOutput)="showAddCompanyFormEvent($event)"/>
-  @if(showAddCompanyForm) {
-    <app-add-company (closeAddCompanyFormOutput)="showAddCompanyFormEvent($event)"/>
-  }
+  <div class="space-x-5">
+    <app-add-application (showAddCompanyFormOutput)="showAddCompanyFormEvent($event)" [allCompanies]="allCompaniesSignal()" />
+    @if(showAddCompanyForm) {
+      <app-add-company (closeAddCompanyFormOutput)="showAddCompanyFormEvent($event)" (companyAddedOutput)="refresh()"/>
+    }
+  </div>
   <div class="grow">
     <app-my-applications/>
   </div>
 </div>
+<button (click)="refresh()">behaviorTest</button>
