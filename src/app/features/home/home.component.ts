@@ -1,20 +1,23 @@
-import { Component, inject, Signal } from '@angular/core';
-import { AuthService } from '../auth/service/authService/auth.service';
-import { UserModel } from '../../shared/models/userModel';
-import { ApplicationService } from '../../shared/services/applications/application.service';
+import { Component } from '@angular/core';
+import { AddApplicationComponent } from './add-application/add-application.component';
+import { AddCompanyComponent } from './add-company/add-company.component';
+import { MyApplicationsComponent } from './my-applications/my-applications.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [
+    AddApplicationComponent,
+    AddCompanyComponent,
+    MyApplicationsComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  private readonly authService: AuthService = inject(AuthService);
-  private readonly applicationService: ApplicationService =
-    inject(ApplicationService);
-  currentUser: Signal<UserModel | null> = this.authService.currentUser;
-  application: Signal<any> | undefined =
-    this.applicationService.getApplicationsById(2);
+  showAddCompanyForm: boolean = false;
+
+  showAddCompanyFormEvent($event: boolean) {
+    this.showAddCompanyForm = $event;
+  }
 }
