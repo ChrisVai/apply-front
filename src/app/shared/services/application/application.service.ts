@@ -1,36 +1,32 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment.development';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { ApplicationModel } from '../../models/applicationModel';
+import { Observable } from 'rxjs';
+import { AuthService } from '../../../features/auth/service/authService/auth.service';
+import { UserModel } from '../../models/userModel';
+import { StorageService } from '../storage/storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApplicationService {
   private readonly _http: HttpClient = inject(HttpClient);
+  private readonly _authService: AuthService = inject(AuthService);
   private readonly _ApiUrlApplications: string =
     environment.apiUrl + '/applications';
+  private readonly _currentUser: Signal<UserModel | null> =
+    this._authService.currentUser;
+  private readonly _storageService: StorageService = inject(StorageService);
 
-  getApplicationById(id: Number): Signal<ApplicationModel | undefined> {
-    return toSignal(
-      this._http.get<ApplicationModel>(`${this._ApiUrlApplications}${id}`, {
-        withCredentials: true,
-      })
+  getCurrentUserApplications(): Observable<ApplicationModel[]> {
+    return this._http.get<ApplicationModel[]>(
+      `${this._ApiUrlApplications}/me/${this._storageService.getUserId()}`,
+      { withCredentials: true }
     );
   }
 
-  getCurrentUserApplications(userId: number): Signal<ApplicationModel[]> {
-    return toSignal(
-      this._http.get<ApplicationModel[]>(
-        `${this._ApiUrlApplications}/me/${userId}`,
-        { withCredentials: true }
-      ),
-      { initialValue: [] }
-    );
-  }
-
-  addApplication(application: ApplicationModel) {
+  addApplication(application: ApplicationModel): Observable<ApplicationModel> {
     return this._http.post<ApplicationModel>(
       `${this._ApiUrlApplications}`,
       {
