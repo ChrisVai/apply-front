@@ -3,8 +3,10 @@
   <form [formGroup]="addApplicationForm" class="space-y-3 mb-5">
     <div class="flex items-center">
       <label for="company" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Entreprise</label>
-      <select id="company" name="company" type="text" formControlName="company" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
-        <option>Choisissez une entreprise</option>
+      <select id="company" name="company" formControlName="company" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+        @for (company of allCompanies(); track company.id) {
+          <option [ngValue]= company.id >{{company.name}}</option>
+        }
       </select>
       <button (click)="showAddCompanyForm()">
         @if(!isAddCompanyFormVisible) {
@@ -20,13 +22,13 @@
     </div>
     <div class="flex items-center">
       <label for="applied" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Postulé</label>
-      <select id="applied" name="applied" type="text" formControlName="applied" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
-        <option [value]="true">Oui</option>
-        <option [value]="false">Non</option>
+      <select id="applied" name="applied" type="boolean" formControlName="applied" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+        <option [ngValue]= true>Oui</option>
+        <option [ngValue]= false>Non</option>
       </select>
     </div>
   </form>
   <div class="flex justify-center">
-    <app-button ariaLabel="Ajouter une candidature" btnLabel="Ajouter"/>
+    <app-button (click)="addApplication()" ariaLabel="Ajouter une candidature" btnLabel="Ajouter"/>
   </div>
 </div>
