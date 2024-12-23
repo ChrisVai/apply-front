@@ -2,6 +2,10 @@
   <h2 class="mb-3">Ajouter une candidature</h2>
   <form [formGroup]="addApplicationForm" class="space-y-3 mb-5">
     <div class="flex items-center">
+      <label for="title" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Titre</label>
+      <input id="title" name="title" type="text" formControlName="title" placeholder="Titre" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+    </div>
+    <div class="flex items-center">
       <label for="company" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Entreprise</label>
       <select id="company" name="company" formControlName="company" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
         @for (company of allCompanies(); track company.id) {

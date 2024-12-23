@@ -35,8 +35,9 @@ export class AddApplicationComponent {
   private readonly _fb: FormBuilder = inject(FormBuilder);
 
   addApplicationForm = this._fb.nonNullable.group({
+    title: [''],
     company: [1, [Validators.required]],
-    offerUrl: [''],
+    offerUrl: [null],
     applied: [false, [Validators.required]],
     appliedOn: [''],
     status: [Status.toApply, [Validators.required]],
@@ -55,10 +56,11 @@ export class AddApplicationComponent {
     const val = this.addApplicationForm.getRawValue();
     val.applied ? (val.status = Status.applied) : Status.toApply;
     const application: ApplicationModel = {
+      title: val.title,
       applied: val.applied,
       appliedOn: undefined,
       companyId: val.company,
-      offerUrl: val.offerUrl,
+      offerUrl: val.offerUrl!,
       recruiterResponse: undefined,
       status: Status.toApply,
       userId: this.currentUser()?.id!,

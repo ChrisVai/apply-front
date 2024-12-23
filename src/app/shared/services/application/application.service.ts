@@ -1,10 +1,9 @@
-import { inject, Injectable, Signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment.development';
 import { ApplicationModel } from '../../models/applicationModel';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../../features/auth/service/authService/auth.service';
-import { UserModel } from '../../models/userModel';
 import { StorageService } from '../storage/storage.service';
 
 @Injectable({
@@ -15,8 +14,6 @@ export class ApplicationService {
   private readonly _authService: AuthService = inject(AuthService);
   private readonly _ApiUrlApplications: string =
     environment.apiUrl + '/applications';
-  private readonly _currentUser: Signal<UserModel | null> =
-    this._authService.currentUser;
   private readonly _storageService: StorageService = inject(StorageService);
 
   getCurrentUserApplications(): Observable<ApplicationModel[]> {
@@ -31,6 +28,7 @@ export class ApplicationService {
       `${this._ApiUrlApplications}`,
       {
         user: application.userId,
+        title: application.title,
         company: application.companyId,
         offerUrl: application.offerUrl,
         applied: application.applied,

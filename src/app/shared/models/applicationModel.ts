@@ -1,3 +1,5 @@
+import { CompanyModel } from './companyModel';
+
 export enum RecruiterResponse {
   no = 'Négative',
   yes = 'Positive',
@@ -14,7 +16,9 @@ export enum Status {
 
 export interface ApplicationModel {
   id?: number;
+  title: string;
   companyId: number;
+  company?: CompanyModel;
   offerUrl?: string;
   applied: boolean;
   appliedOn?: Date;
