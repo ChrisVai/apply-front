@@ -6,6 +6,6 @@
     }
   </div>
   <div class="grow">
-    <app-my-applications [myApplications]="myApplicationsSignal()"/>
+    <app-my-applications [myApplications]="myApplicationsSignal()" (applicationDeletedOutput)="refreshApplications()"/>
   </div>
 </div>
