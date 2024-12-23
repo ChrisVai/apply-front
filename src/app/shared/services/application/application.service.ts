@@ -11,21 +11,20 @@ import { StorageService } from '../storage/storage.service';
 })
 export class ApplicationService {
   private readonly _http: HttpClient = inject(HttpClient);
-  private readonly _authService: AuthService = inject(AuthService);
-  private readonly _ApiUrlApplications: string =
+  private readonly _apiUrlApplications: string =
     environment.apiUrl + '/applications';
   private readonly _storageService: StorageService = inject(StorageService);
 
   getCurrentUserApplications(): Observable<ApplicationModel[]> {
     return this._http.get<ApplicationModel[]>(
-      `${this._ApiUrlApplications}/me/${this._storageService.getUserId()}`,
+      `${this._apiUrlApplications}/me/${this._storageService.getUserId()}`,
       { withCredentials: true }
     );
   }
 
   addApplication(application: ApplicationModel): Observable<ApplicationModel> {
     return this._http.post<ApplicationModel>(
-      `${this._ApiUrlApplications}`,
+      `${this._apiUrlApplications}`,
       {
         user: application.userId,
         title: application.title,
@@ -37,5 +36,11 @@ export class ApplicationService {
       },
       { withCredentials: true }
     );
+  }
+
+  deleteApplicationById(id: number) {
+    return this._http.delete(`${this._apiUrlApplications}/${id}`, {
+      withCredentials: true,
+    });
   }
 }

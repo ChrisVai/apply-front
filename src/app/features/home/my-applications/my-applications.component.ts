@@ -1,6 +1,5 @@
-import { Component, input, Input, InputSignal } from '@angular/core';
+import { Component, input, InputSignal } from '@angular/core';
 import { ApplicationCardComponent } from './application-card/application-card.component';
-import { CompanyModel } from '../../../shared/models/companyModel';
 import { ApplicationModel } from '../../../shared/models/applicationModel';
 
 @Component({
