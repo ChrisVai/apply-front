@@ -50,10 +50,7 @@ export class AddCompanyComponent {
     };
     this._companyService
       .addCompany(company)
-      .pipe(
-        takeUntilDestroyed(this._destroyRef),
-        tap(data => console.log(data))
-      )
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: () => {
           this.isCompanyAdded.set(true);
