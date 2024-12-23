@@ -1,9 +1,7 @@
-import { Component, inject, OnInit, Signal } from '@angular/core';
-import { ApplicationService } from '../../../shared/services/application/application.service';
-import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
-import { ApplicationModel } from '../../../shared/models/applicationModel';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, input, Input, InputSignal } from '@angular/core';
 import { ApplicationCardComponent } from './application-card/application-card.component';
+import { CompanyModel } from '../../../shared/models/companyModel';
+import { ApplicationModel } from '../../../shared/models/applicationModel';
 
 @Component({
   selector: 'app-my-applications',
@@ -12,25 +10,7 @@ import { ApplicationCardComponent } from './application-card/application-card.co
   templateUrl: './my-applications.component.html',
   styleUrl: './my-applications.component.scss',
 })
-export class MyApplicationsComponent implements OnInit {
-  private readonly _applicationService: ApplicationService =
-    inject(ApplicationService);
-  private _refreshApplicationsTrigger$: BehaviorSubject<void> =
-    new BehaviorSubject<void>(undefined);
-  myApplications$: Observable<ApplicationModel[]> =
-    this._refreshApplicationsTrigger$.pipe(
-      switchMap(() => this._applicationService.getCurrentUserApplications())
-    );
-  myApplicationsSignal: Signal<ApplicationModel[]> = toSignal(
-    this.myApplications$.pipe(tap(data => console.log(data))),
-    { initialValue: [] }
-  );
-
-  refreshApplications() {
-    this._refreshApplicationsTrigger$.next();
-  }
-
-  ngOnInit(): void {
-    console.log('applications', this.myApplicationsSignal());
-  }
+export class MyApplicationsComponent {
+  myApplications: InputSignal<ApplicationModel[]> =
+    input.required<ApplicationModel[]>();
 }

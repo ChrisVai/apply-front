@@ -1,7 +1,7 @@
 <div class="flex-col gap-5 bg-app-blue-100 rounded-xl drop-shadow-lg p-5">
   <div class="flex-col justify-center">
     <h2 class="text-center">Mes candidatures</h2>
-    @for(application of myApplicationsSignal(); track application.id) {
+    @for(application of myApplications(); track application.id) {
       <app-application-card [application]="application"/>
     }
   </div>

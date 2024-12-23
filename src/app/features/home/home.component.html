@@ -1,11 +1,11 @@
 <div class="flex gap-5">
   <div class="space-x-5">
-    <app-add-application (showAddCompanyFormOutput)="showAddCompanyFormEvent($event)" [allCompanies]="allCompaniesSignal()" />
+    <app-add-application [allCompanies]="allCompaniesSignal()" (showAddCompanyFormOutput)="showAddCompanyFormEvent($event)" (applicationAddedOutput)="refreshApplications()" />
     @if(showAddCompanyForm) {
       <app-add-company (closeAddCompanyFormOutput)="showAddCompanyFormEvent($event)" (companyAddedOutput)="refreshCompanies()"/>
     }
   </div>
   <div class="grow">
-    <app-my-applications/>
+    <app-my-applications [myApplications]="myApplicationsSignal()"/>
   </div>
 </div>
