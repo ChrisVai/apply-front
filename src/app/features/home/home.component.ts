@@ -1,4 +1,10 @@
-import { Component, inject, Signal } from '@angular/core';
+import {
+  Component,
+  inject,
+  signal,
+  Signal,
+  WritableSignal,
+} from '@angular/core';
 import { AddApplicationComponent } from './add-application/add-application.component';
 import { AddCompanyComponent } from './add-company/add-company.component';
 import { MyApplicationsComponent } from './my-applications/my-applications.component';
@@ -7,7 +13,9 @@ import { CompanyModel } from '../../shared/models/companyModel';
 import { BehaviorSubject, map, Observable, switchMap, tap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ApplicationService } from '../../shared/services/application/application.service';
-import { ApplicationModel } from '../../shared/models/applicationModel';
+import { ApplicationModel, Status } from '../../shared/models/applicationModel';
+import { ToolBarComponent } from './tool-bar/tool-bar.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +24,8 @@ import { ApplicationModel } from '../../shared/models/applicationModel';
     AddApplicationComponent,
     AddCompanyComponent,
     MyApplicationsComponent,
+    ToolBarComponent,
+    FormsModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -52,9 +62,37 @@ export class HomeComponent {
     initialValue: [],
   });
   myApplicationsSignal: Signal<ApplicationModel[]> = toSignal(
-    this.myApplications$.pipe(map(data => data.reverse())),
+    this.myApplications$.pipe(
+      tap(applications => {
+        for (let application of applications) {
+          switch (application.status) {
+            case Status.closed:
+              this.countApplicationsClosed.update(value => value + 1);
+              break;
+            case Status.applied:
+              this.countApplicationsApplied.update(value => value + 1);
+              break;
+            case Status.toApply:
+              this.countApplicationsToApply.update(value => value + 1);
+              break;
+            case Status.relaunched:
+              this.countApplicationsRelaunched.update(value => value + 1);
+              break;
+            case Status.toRelaunch:
+              this.countApplicationsToRelaunch.update(value => value + 1);
+          }
+        }
+      }),
+      map(data => data.reverse())
+    ),
     { initialValue: [] }
   );
+  countApplicationsToApply: WritableSignal<number> = signal<number>(0);
+  countApplicationsClosed: WritableSignal<number> = signal<number>(0);
+  countApplicationsApplied: WritableSignal<number> = signal<number>(0);
+  countApplicationsToRelaunch: WritableSignal<number> = signal<number>(0);
+  countApplicationsRelaunched: WritableSignal<number> = signal<number>(0);
+  searchInput: WritableSignal<string> = signal('');
   /*
     Public variables
    */
@@ -63,6 +101,7 @@ export class HomeComponent {
   /*
     Functions
    */
+
   showAddCompanyFormEvent($event: boolean) {
     this.showAddCompanyForm = $event;
   }
@@ -72,6 +111,17 @@ export class HomeComponent {
   }
 
   refreshApplications() {
+    this.countApplicationsToApply.set(0);
+    this.countApplicationsClosed.set(0);
+    this.countApplicationsApplied.set(0);
+    this.countApplicationsToRelaunch.set(0);
+    this.countApplicationsRelaunched.set(0);
     this._refreshApplicationsTrigger$.next();
+  }
+
+  updateResearch($event: string | null) {
+    if ($event != null) {
+      this.searchInput.set($event);
+    }
   }
 }

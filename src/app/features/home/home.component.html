@@ -1,3 +1,9 @@
+<div class="mb-5">
+  <app-tool-bar (searchOutput)="updateResearch($event)" [countApplicationsApplied]="countApplicationsApplied()" [countApplicationsClosed]="countApplicationsClosed()"
+                [countApplicationsRelaunched]="countApplicationsRelaunched()" [countApplicationsToApply]="countApplicationsToApply()"
+                [countApplicationsToRelaunch]="countApplicationsToRelaunch()" />
+</div>
+<p>search: {{searchInput()}}</p>
 <div class="flex gap-5">
   <div class="space-x-5">
     <app-add-application [allCompanies]="allCompaniesSignal()" (showAddCompanyFormOutput)="showAddCompanyFormEvent($event)" (applicationAddedOutput)="refreshApplications()" />
