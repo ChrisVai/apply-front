@@ -52,7 +52,6 @@ export class HomeComponent {
     initialValue: [],
   });
   myApplicationsSignal: Signal<ApplicationModel[]> = toSignal(
-    //todo consolelog à virer debug
     this.myApplications$.pipe(map(data => data.reverse())),
     { initialValue: [] }
   );

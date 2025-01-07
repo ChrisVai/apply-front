@@ -51,6 +51,7 @@ export class AddApplicationComponent {
     ],
     applied: [false, [Validators.required]],
     appliedOn: [''],
+    comments: [''],
     status: [Status.toApply, [Validators.required]],
   });
   isAddCompanyFormVisible: boolean = false;
@@ -74,7 +75,8 @@ export class AddApplicationComponent {
       companyId: val.company,
       offerUrl: val.offerUrl!,
       recruiterResponse: undefined,
-      status: Status.toApply,
+      comments: val.comments,
+      status: val.status,
       userId: this.currentUser()?.id!,
     };
     if (this.currentUser()) {
