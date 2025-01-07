@@ -32,6 +32,7 @@ export class ApplicationService {
         offerUrl: application.offerUrl,
         applied: application.applied,
         appliedOn: application.appliedOn,
+        comments: application.comments,
         status: application.status,
       },
       { withCredentials: true }
