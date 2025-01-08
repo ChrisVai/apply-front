@@ -1,4 +1,4 @@
-<button class="flex gap-2 bg-app-gray-100 drop-shadow-sm hover:drop-shadow-lg rounded-xl px-3 py-1.5">
-  <p class="self-center">{{name}}</p>
+<button (click)="returnBtnFilterValue(data)" class="flex gap-2 bg-app-gray-100 drop-shadow-sm hover:drop-shadow-lg rounded-xl px-3 py-1.5">
+  <p class="self-center">{{data}}</p>
   <span class="rounded-full px-3 py-1 bg-app-gray-200">{{count()}}</span>
 </button>

@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { StatusChipsBtnComponent } from './status-chips-btn/status-chips-btn.component';
 import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
+import { Status } from '../../../shared/models/applicationModel';
 
 @Component({
   selector: 'app-tool-bar',
@@ -19,8 +20,9 @@ export class ToolBarComponent {
   countApplicationsRelaunched: InputSignal<number> = input.required<number>();
 
   private readonly _fb: FormBuilder = inject(FormBuilder);
+  status = Status;
 
-  searchForm = this._fb.group({
+  searchForm = this._fb.nonNullable.group({
     searchInput: [''],
   });
   searchOutput = outputFromObservable(
@@ -28,4 +30,9 @@ export class ToolBarComponent {
       map(() => this.searchForm.controls.searchInput.value)
     )
   );
+  btnValueOutput = output<string>();
+
+  btnValue(event: string) {
+    this.btnValueOutput.emit(event);
+  }
 }

@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   inject,
   signal,
   Signal,
@@ -87,12 +88,41 @@ export class HomeComponent {
     ),
     { initialValue: [] }
   );
+  /*
+    Filtered Applications
+  */
+  statusFilteredApplicationSignal: Signal<ApplicationModel[]> = computed(() =>
+    this.myApplicationsSignal().filter(application =>
+      application.status
+        .toLowerCase()
+        .includes(this.filterValue().toLowerCase())
+    )
+  );
+  filteredApplicationsSignal: Signal<ApplicationModel[]> = computed(() =>
+    this.statusFilteredApplicationSignal().filter(application => {
+      if (application.title) {
+        return (
+          application.title
+            .toLowerCase()
+            .includes(this.searchInput().toLowerCase()) ||
+          application.company?.name
+            .toLowerCase()
+            .includes(this.searchInput().toLowerCase())
+        );
+      }
+      return application;
+    })
+  );
+  /*
+    Applications counts by Status
+  */
   countApplicationsToApply: WritableSignal<number> = signal<number>(0);
   countApplicationsClosed: WritableSignal<number> = signal<number>(0);
   countApplicationsApplied: WritableSignal<number> = signal<number>(0);
   countApplicationsToRelaunch: WritableSignal<number> = signal<number>(0);
   countApplicationsRelaunched: WritableSignal<number> = signal<number>(0);
   searchInput: WritableSignal<string> = signal('');
+  filterValue: WritableSignal<string> = signal('');
   /*
     Public variables
    */
@@ -101,7 +131,6 @@ export class HomeComponent {
   /*
     Functions
    */
-
   showAddCompanyFormEvent($event: boolean) {
     this.showAddCompanyForm = $event;
   }
@@ -119,9 +148,11 @@ export class HomeComponent {
     this._refreshApplicationsTrigger$.next();
   }
 
-  updateResearch($event: string | null) {
-    if ($event != null) {
-      this.searchInput.set($event);
-    }
+  updateResearch($event: string) {
+    this.searchInput.set($event);
+  }
+
+  filterBtnValue($event: string) {
+    this.filterValue.set($event);
   }
 }

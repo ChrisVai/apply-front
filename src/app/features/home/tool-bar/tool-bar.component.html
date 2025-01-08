@@ -8,11 +8,11 @@
        <input id="searchInput" name="searchInput" type="text" formControlName="searchInput" placeholder="Rechercher" class="rounded-xl border-0 py-1.5 px-3 drop-shadow-xl ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
      </form>
      <div class="flex grow justify-evenly">
-       <app-status-chips-btn [count]="countApplicationsToApply()"  name="A Postuler"/>
-       <app-status-chips-btn [count]="countApplicationsApplied()" name="Postulé"/>
-       <app-status-chips-btn [count]="countApplicationsToRelaunch()"  name="A relancer"/>
-       <app-status-chips-btn [count]="countApplicationsRelaunched()" name="Relancée" />
-       <app-status-chips-btn [count]="countApplicationsClosed()" name="Close"/>
+       <app-status-chips-btn [count]="countApplicationsToApply()"  [data]=status.toApply (btnValueOutput)="btnValue($event)"/>
+       <app-status-chips-btn [count]="countApplicationsApplied()" [data]=status.applied (btnValueOutput)="btnValue($event)"/>
+       <app-status-chips-btn [count]="countApplicationsToRelaunch()"  [data]=status.toRelaunch (btnValueOutput)="btnValue($event)"/>
+       <app-status-chips-btn [count]="countApplicationsRelaunched()" [data]=status.relaunched (btnValueOutput)="btnValue($event)"/>
+       <app-status-chips-btn [count]="countApplicationsClosed()" [data]=status.closed (btnValueOutput)="btnValue($event)"/>
      </div>
    </div>
  </div>

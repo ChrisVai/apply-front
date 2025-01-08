@@ -1,4 +1,4 @@
-import { Component, Input, input, InputSignal } from '@angular/core';
+import { Component, Input, input, InputSignal, output } from '@angular/core';
 
 @Component({
   selector: 'app-status-chips-btn',
@@ -8,6 +8,11 @@ import { Component, Input, input, InputSignal } from '@angular/core';
   styleUrl: './status-chips-btn.component.scss',
 })
 export class StatusChipsBtnComponent {
-  @Input({ required: true }) name!: string;
+  @Input({ required: true }) data!: string;
   count: InputSignal<number> = input.required<number>();
+  btnValueOutput = output<string>();
+
+  returnBtnFilterValue(value: string) {
+    this.btnValueOutput.emit(value);
+  }
 }
