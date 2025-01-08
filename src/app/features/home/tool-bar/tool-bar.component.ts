@@ -13,6 +13,7 @@ import { Status } from '../../../shared/models/applicationModel';
   styleUrl: './tool-bar.component.scss',
 })
 export class ToolBarComponent {
+  applicationsTotalCount: InputSignal<number> = input.required<number>();
   countApplicationsToApply: InputSignal<number> = input.required<number>();
   countApplicationsClosed: InputSignal<number> = input.required<number>();
   countApplicationsApplied: InputSignal<number> = input.required<number>();

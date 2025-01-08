@@ -1,5 +1,5 @@
  <div class="bg-app-blue-100 rounded-xl drop-shadow-xl p-5">
-   <h2 class="text-center mb-5">filtres</h2>
+   <h2 class="text-center mb-5">Filtres</h2>
    <div class="flex justify-evenly">
      <form class="flex gap-2" [formGroup]="searchForm">
        <label class="self-center" for="searchInput">
@@ -8,6 +8,7 @@
        <input id="searchInput" name="searchInput" type="text" formControlName="searchInput" placeholder="Rechercher" class="rounded-xl border-0 py-1.5 px-3 drop-shadow-xl ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
      </form>
      <div class="flex grow justify-evenly">
+       <app-status-chips-btn [count]="applicationsTotalCount()" data="Tout" (btnValueOutput)="btnValue('')"/>
        <app-status-chips-btn [count]="countApplicationsToApply()"  [data]=status.toApply (btnValueOutput)="btnValue($event)"/>
        <app-status-chips-btn [count]="countApplicationsApplied()" [data]=status.applied (btnValueOutput)="btnValue($event)"/>
        <app-status-chips-btn [count]="countApplicationsToRelaunch()"  [data]=status.toRelaunch (btnValueOutput)="btnValue($event)"/>

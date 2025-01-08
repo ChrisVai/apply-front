@@ -65,6 +65,7 @@ export class HomeComponent {
   myApplicationsSignal: Signal<ApplicationModel[]> = toSignal(
     this.myApplications$.pipe(
       tap(applications => {
+        this.applicationsTotalCount.set(applications.length);
         for (let application of applications) {
           switch (application.status) {
             case Status.closed:
@@ -116,6 +117,7 @@ export class HomeComponent {
   /*
     Applications counts by Status
   */
+  applicationsTotalCount: WritableSignal<number> = signal<number>(0);
   countApplicationsToApply: WritableSignal<number> = signal<number>(0);
   countApplicationsClosed: WritableSignal<number> = signal<number>(0);
   countApplicationsApplied: WritableSignal<number> = signal<number>(0);

@@ -9,7 +9,7 @@ import { Component, Input, input, InputSignal, output } from '@angular/core';
 })
 export class StatusChipsBtnComponent {
   @Input({ required: true }) data!: string;
-  count: InputSignal<number> = input.required<number>();
+  count: InputSignal<number | undefined> = input<number>();
   btnValueOutput = output<string>();
 
   returnBtnFilterValue(value: string) {
