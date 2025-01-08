@@ -121,13 +121,15 @@ export class HomeComponent {
   countApplicationsApplied: WritableSignal<number> = signal<number>(0);
   countApplicationsToRelaunch: WritableSignal<number> = signal<number>(0);
   countApplicationsRelaunched: WritableSignal<number> = signal<number>(0);
+  /*
+    Toolbar's filters values
+   */
   searchInput: WritableSignal<string> = signal('');
   filterValue: WritableSignal<string> = signal('');
   /*
     Public variables
    */
   showAddCompanyForm: boolean = false;
-
   /*
     Functions
    */
