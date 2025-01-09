@@ -25,21 +25,27 @@
       <input id="offerUrl" name="offerUrl" type="text" formControlName="offerUrl" placeholder="https://....." class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
     </div>
     <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
-      @if (allCategories().length === 0 || isAddCategoryFieldVisible) {
+      @if (allSectors().length === 0 || isAddSectorFieldVisible) {
         <div class="flex items-center grow bg-app-blue-50 rounded-md shadow-sm p-1">
-          <label for="categoryField" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Catégorie</label>
-          <input id="categoryField" name="category" type="text" formControlName="category" placeholder="Catégorie" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+          <label for="sectorField" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Secteur</label>
+          <input id="sectorField" name="sector" type="text" formControlName="sector" placeholder="Secteur" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
         </div>
+        <button (click)=addSector()>
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#43e588"><path d="M400-304 240-464l56-56 104 104 264-264 56 56-320 320Z"/></svg>
+        </button>
+        <button (click)="isAddSectorFieldVisible = !isAddSectorFieldVisible">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#f57942"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+        </button>
       }
-      @if(allCategories().length > 0 && !isAddCategoryFieldVisible) {
-        <label for="categorySelect" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Catégorie</label>
-        <select id="categorySelect" name="category" type="text" formControlName="category" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
-          @for (category of allCategories(); track category) {
-            <option [ngValue]= category>{{category}}</option>
+      @if(allSectors().length > 0 && !isAddSectorFieldVisible) {
+        <label for="sectorSelect" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Secteur</label>
+        <select id="sectorSelect" name="sector" type="text" formControlName="sector" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+          @for (sector of allSectors(); track sector.id) {
+            <option [ngValue]= sector.id>{{sector.name}}</option>
           }
         </select>
-        <button (click)="isAddCategoryFieldVisible = !isAddCategoryFieldVisible">
-          @if(!isAddCategoryFieldVisible) {
+        <button (click)="showAddSectorField()">
+          @if(!isAddSectorFieldVisible) {
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#32c5fe"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
           } @else {
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#32c5fe"><path d="M200-440v-80h560v80H200Z"/></svg>

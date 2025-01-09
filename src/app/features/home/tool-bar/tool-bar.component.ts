@@ -4,6 +4,7 @@ import { StatusChipsBtnComponent } from './status-chips-btn/status-chips-btn.com
 import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { map, startWith } from 'rxjs';
 import { Status } from '../../../shared/models/applicationModel';
+import { SectorModel } from '../../../shared/models/sectorModel';
 
 @Component({
   selector: 'app-tool-bar',
@@ -19,7 +20,7 @@ export class ToolBarComponent {
   countApplicationsApplied: InputSignal<number> = input.required<number>();
   countApplicationsToRelaunch: InputSignal<number> = input.required<number>();
   countApplicationsRelaunched: InputSignal<number> = input.required<number>();
-  allCategories: InputSignal<string[]> = input.required<string[]>();
+  allSectors: InputSignal<SectorModel[]> = input.required<SectorModel[]>();
 
   private readonly _fb: FormBuilder = inject(FormBuilder);
   status = Status;

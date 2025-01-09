@@ -17,6 +17,8 @@ import { ApplicationService } from '../../shared/services/application/applicatio
 import { ApplicationModel, Status } from '../../shared/models/applicationModel';
 import { ToolBarComponent } from './tool-bar/tool-bar.component';
 import { FormsModule } from '@angular/forms';
+import { SectorModel } from '../../shared/models/sectorModel';
+import { SectorService } from '../../shared/services/sector/sector.service';
 
 @Component({
   selector: 'app-home',
@@ -38,12 +40,15 @@ export class HomeComponent {
   private readonly _companyService: CompanyService = inject(CompanyService);
   private readonly _applicationService: ApplicationService =
     inject(ApplicationService);
+  private readonly _sectorService: SectorService = inject(SectorService);
   /*
     Triggers for refreshing data
   */
   private _refreshApplicationsTrigger$: BehaviorSubject<void> =
     new BehaviorSubject<void>(undefined);
   private _refreshCompaniesTrigger$: BehaviorSubject<void> =
+    new BehaviorSubject<void>(undefined);
+  private _refreshSectorsTrigger$: BehaviorSubject<void> =
     new BehaviorSubject<void>(undefined);
   /*
      Data as Observables
@@ -52,6 +57,9 @@ export class HomeComponent {
     this._refreshCompaniesTrigger$.pipe(
       switchMap(() => this._companyService.getAllCompanies())
     );
+  allSectors$: Observable<SectorModel[]> = this._refreshSectorsTrigger$.pipe(
+    switchMap(() => this._sectorService.getAllSectors())
+  );
   myApplications$: Observable<ApplicationModel[]> =
     this._refreshApplicationsTrigger$.pipe(
       switchMap(() => this._applicationService.getCurrentUserApplications())
@@ -62,18 +70,13 @@ export class HomeComponent {
   allCompaniesSignal: Signal<CompanyModel[]> = toSignal(this.allCompanies$, {
     initialValue: [],
   });
-  allApplicationsCategoriesSignal: WritableSignal<string[]> = signal<string[]>(
-    []
-  );
+  allSectorsSignal: Signal<SectorModel[]> = toSignal(this.allSectors$, {
+    initialValue: [],
+  });
   myApplicationsSignal: Signal<ApplicationModel[]> = toSignal(
     this.myApplications$.pipe(
       tap(applications => {
-        let allCategories: string[] = [];
         for (let application of applications) {
-          if (application.category) {
-            allCategories.push(application.category);
-          }
-          this.allApplicationsCategoriesSignal.set(allCategories);
           this.applicationsTotalCount.set(applications.length);
           switch (application.status) {
             case Status.closed:
@@ -114,13 +117,13 @@ export class HomeComponent {
           !this.categoryFilterValue().includes('none') &&
           !this.categoryFilterValue().includes('all')
         )
-          if (application.category) {
-            return application.category
+          if (application.sector) {
+            return application.sector.name
               ?.toLowerCase()
               .includes(this.categoryFilterValue().toLowerCase());
           }
         if (this.categoryFilterValue().includes('none')) {
-          return !application.category;
+          return !application.sector;
         }
         if (this.categoryFilterValue().includes('all')) {
           return application;
@@ -171,6 +174,10 @@ export class HomeComponent {
 
   refreshCompanies() {
     this._refreshCompaniesTrigger$.next();
+  }
+
+  refreshSectors() {
+    this._refreshSectorsTrigger$.next();
   }
 
   refreshApplications() {

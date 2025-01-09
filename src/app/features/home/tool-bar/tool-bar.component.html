@@ -8,13 +8,13 @@
          <input id="searchInput" name="searchInput" type="text" formControlName="searchInput" placeholder="Rechercher" class="w-full rounded-xl border-0 py-1.5 px-3 drop-shadow-md ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
        </div>
        <div class="flex bg-app-gray-100 p-1.5 rounded-xl drop-shadow-md w-1/4">
-         <label for="categorySelect" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Catégorie</label>
+         <label for="categorySelect" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 text-nowrap">Secteurs d'activité</label>
          <select id="categorySelect" name="category" type="text" formControlName="category" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
-           <option value="all" selected>Toutes</option>
-           @for (category of allCategories(); track category) {
-             <option [ngValue]= category>{{category}}</option>
+           <option value="all" selected>Tous</option>
+           @for (sector of allSectors(); track sector.id) {
+             <option [ngValue]= sector.name>{{sector.name}}</option>
            }
-           <option value="none">Sans catégorie</option>
+           <option value="none">Sans</option>
          </select>
        </div>
      </form>

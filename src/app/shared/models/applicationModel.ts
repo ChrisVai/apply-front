@@ -1,4 +1,5 @@
 import { CompanyModel } from './companyModel';
+import { SectorModel } from './sectorModel';
 
 export enum RecruiterResponse {
   no = 'Négative',
@@ -17,7 +18,8 @@ export enum Status {
 export interface ApplicationModel {
   id?: number;
   title: string;
-  category?: string;
+  sectorId?: number;
+  sector?: SectorModel;
   companyId: number;
   company?: CompanyModel;
   offerUrl?: string;

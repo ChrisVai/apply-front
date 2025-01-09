@@ -22,6 +22,8 @@ import { CompanyModel } from '../../../shared/models/companyModel';
 import { AuthService } from '../../auth/service/authService/auth.service';
 import { UserModel } from '../../../shared/models/userModel';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SectorModel } from '../../../shared/models/sectorModel';
+import { SectorService } from '../../../shared/services/sector/sector.service';
 
 @Component({
   selector: 'app-add-application',
@@ -32,19 +34,21 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class AddApplicationComponent {
   allCompanies: InputSignal<CompanyModel[]> = input.required<CompanyModel[]>();
-  allCategories: InputSignal<string[]> = input.required<string[]>();
+  allSectors: InputSignal<SectorModel[]> = input.required<SectorModel[]>();
   showAddCompanyFormOutput: OutputEmitterRef<boolean> = output<boolean>();
   applicationAddedOutput: OutputEmitterRef<void> = output<void>();
+  sectorAddedOutput: OutputEmitterRef<void> = output<void>();
 
   private readonly _applicationService: ApplicationService =
     inject(ApplicationService);
+  private readonly _sectorService: SectorService = inject(SectorService);
   private readonly _authService: AuthService = inject(AuthService);
   private readonly _destroyRef: DestroyRef = inject(DestroyRef);
   private readonly _fb: FormBuilder = inject(FormBuilder);
 
   addApplicationForm = this._fb.nonNullable.group({
     title: [''],
-    category: [''],
+    sector: [],
     company: [1, [Validators.required]],
     offerUrl: [
       null,
@@ -59,15 +63,22 @@ export class AddApplicationComponent {
   });
 
   isAddCompanyFormVisible: boolean = false;
-  isAddCategoryFieldVisible: boolean = false;
+  isAddSectorFieldVisible: boolean = false;
 
   currentUser: Signal<UserModel | null> = this._authService.currentUser;
   applicationAddedSignal: WritableSignal<boolean> = signal<boolean>(false);
 
-  //Functions
+  /*
+    Functions
+   */
   showAddCompanyForm() {
     this.isAddCompanyFormVisible = !this.isAddCompanyFormVisible;
     this.showAddCompanyFormOutput.emit(this.isAddCompanyFormVisible);
+  }
+
+  showAddSectorField() {
+    this.isAddSectorFieldVisible = !this.isAddSectorFieldVisible;
+    this.addApplicationForm.controls.sector.reset();
   }
 
   addApplication() {
@@ -75,7 +86,7 @@ export class AddApplicationComponent {
     val.applied ? (val.status = Status.applied) : Status.toApply;
     const application: ApplicationModel = {
       title: val.title,
-      category: val.category,
+      sectorId: val.sector,
       applied: val.applied,
       appliedOn: undefined,
       companyId: val.company,
@@ -93,14 +104,36 @@ export class AddApplicationComponent {
         .subscribe({
           next: () => {
             this.applicationAddedSignal.set(true);
-            this.isAddCategoryFieldVisible = false;
+            this.isAddSectorFieldVisible = false;
             this.applicationAddedOutput.emit();
           },
           error: err =>
+            //todo gèrer les messages d'erreur
             console.error('erreur dans la création de la candidature', err),
         });
     } else {
+      //todo gèrer les messages d'erreur
       console.log('impossible, pas de currentUser');
     }
+  }
+
+  addSector() {
+    this._sectorService
+      .addSector(this.addApplicationForm.controls.sector.value)
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe({
+        next: () => {
+          this.isAddSectorFieldVisible = false;
+          this.sectorAddedOutput.emit();
+        },
+        //todo gèrer les messages d'erreur
+        error: err =>
+          console.error(
+            'erreur lors de la création du secteur',
+            'value du form:',
+            this.addApplicationForm.controls.sector.value,
+            err
+          ),
+      });
   }
 }
