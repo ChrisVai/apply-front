@@ -17,6 +17,7 @@ export enum Status {
 export interface ApplicationModel {
   id?: number;
   title: string;
+  category?: string;
   companyId: number;
   company?: CompanyModel;
   offerUrl?: string;

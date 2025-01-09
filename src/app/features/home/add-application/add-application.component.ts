@@ -2,6 +2,7 @@ import {
   Component,
   DestroyRef,
   inject,
+  Input,
   input,
   InputSignal,
   output,
@@ -31,6 +32,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class AddApplicationComponent {
   allCompanies: InputSignal<CompanyModel[]> = input.required<CompanyModel[]>();
+  allCategories: InputSignal<string[]> = input.required<string[]>();
   showAddCompanyFormOutput: OutputEmitterRef<boolean> = output<boolean>();
   applicationAddedOutput: OutputEmitterRef<void> = output<void>();
 
@@ -42,6 +44,7 @@ export class AddApplicationComponent {
 
   addApplicationForm = this._fb.nonNullable.group({
     title: [''],
+    category: [''],
     company: [1, [Validators.required]],
     offerUrl: [
       null,
@@ -54,7 +57,9 @@ export class AddApplicationComponent {
     comments: [''],
     status: [Status.toApply, [Validators.required]],
   });
+
   isAddCompanyFormVisible: boolean = false;
+  isAddCategoryFieldVisible: boolean = false;
 
   currentUser: Signal<UserModel | null> = this._authService.currentUser;
   applicationAddedSignal: WritableSignal<boolean> = signal<boolean>(false);
@@ -70,6 +75,7 @@ export class AddApplicationComponent {
     val.applied ? (val.status = Status.applied) : Status.toApply;
     const application: ApplicationModel = {
       title: val.title,
+      category: val.category,
       applied: val.applied,
       appliedOn: undefined,
       companyId: val.company,
@@ -87,6 +93,7 @@ export class AddApplicationComponent {
         .subscribe({
           next: () => {
             this.applicationAddedSignal.set(true);
+            this.isAddCategoryFieldVisible = false;
             this.applicationAddedOutput.emit();
           },
           error: err =>

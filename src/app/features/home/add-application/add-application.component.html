@@ -1,11 +1,11 @@
-<div class="bg-app-blue-100 rounded-xl drop-shadow-md p-5 animate-appear">
-  <h2 class="mb-3">Ajouter une candidature</h2>
+<div class="bg-app-blue-100 rounded-xl drop-shadow-md pr-5 pl-5 pb-5 animate-appear">
+  <h2 class="text-center bg-app-blue-200 rounded-b-xl mb-7 px-3 py-1.5 shadow-sm">Ajouter une candidature</h2>
   <form [formGroup]="addApplicationForm" class="space-y-3 mb-5">
-    <div class="flex items-center">
+    <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
       <label for="title" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Titre</label>
       <input id="title" name="title" type="text" formControlName="title" placeholder="Titre" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
     </div>
-    <div class="flex items-center">
+    <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
       <label for="company" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Entreprise</label>
       <select id="company" name="company" formControlName="company" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
         @for (company of allCompanies(); track company.id) {
@@ -20,15 +20,38 @@
         }
       </button>
     </div>
-    <div class="flex items-center">
+    <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
       <label for="offerUrl" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Url de l'offre</label>
       <input id="offerUrl" name="offerUrl" type="text" formControlName="offerUrl" placeholder="https://....." class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
     </div>
-    <div class="flex items-center">
+    <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
+      @if (allCategories().length === 0 || isAddCategoryFieldVisible) {
+        <div class="flex items-center grow bg-app-blue-50 rounded-md shadow-sm p-1">
+          <label for="categoryField" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Catégorie</label>
+          <input id="categoryField" name="category" type="text" formControlName="category" placeholder="Catégorie" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+        </div>
+      }
+      @if(allCategories().length > 0 && !isAddCategoryFieldVisible) {
+        <label for="categorySelect" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Catégorie</label>
+        <select id="categorySelect" name="category" type="text" formControlName="category" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+          @for (category of allCategories(); track category) {
+            <option [ngValue]= category>{{category}}</option>
+          }
+        </select>
+        <button (click)="isAddCategoryFieldVisible = !isAddCategoryFieldVisible">
+          @if(!isAddCategoryFieldVisible) {
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#32c5fe"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+          } @else {
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#32c5fe"><path d="M200-440v-80h560v80H200Z"/></svg>
+          }
+        </button>
+      }
+    </div>
+    <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
       <label for="comments" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Commentaires</label>
       <input id="comments" name="comments" type="text" formControlName="comments" placeholder="Commentaires" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
     </div>
-    <div class="flex items-center">
+    <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
       <label for="applied" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Postulé</label>
       <select id="applied" name="applied" type="boolean" formControlName="applied" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
         <option [ngValue]= true>Oui</option>

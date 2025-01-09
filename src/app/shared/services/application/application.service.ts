@@ -28,6 +28,7 @@ export class ApplicationService {
       {
         user: application.userId,
         title: application.title,
+        category: application.category,
         company: application.companyId,
         offerUrl: application.offerUrl,
         applied: application.applied,

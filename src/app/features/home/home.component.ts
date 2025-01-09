@@ -62,11 +62,19 @@ export class HomeComponent {
   allCompaniesSignal: Signal<CompanyModel[]> = toSignal(this.allCompanies$, {
     initialValue: [],
   });
+  allApplicationsCategoriesSignal: WritableSignal<string[]> = signal<string[]>(
+    []
+  );
   myApplicationsSignal: Signal<ApplicationModel[]> = toSignal(
     this.myApplications$.pipe(
       tap(applications => {
-        this.applicationsTotalCount.set(applications.length);
+        let allCategories: string[] = [];
         for (let application of applications) {
+          if (application.category) {
+            allCategories.push(application.category);
+          }
+          this.allApplicationsCategoriesSignal.set(allCategories);
+          this.applicationsTotalCount.set(applications.length);
           switch (application.status) {
             case Status.closed:
               this.countApplicationsClosed.update(value => value + 1);
