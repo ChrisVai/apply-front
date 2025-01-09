@@ -1,7 +1,8 @@
 <div class="mb-5">
-  <app-tool-bar (searchOutput)="updateResearch($event)" (btnValueOutput)="filterBtnValue($event)" [countApplicationsApplied]="countApplicationsApplied()" [countApplicationsClosed]="countApplicationsClosed()"
+  <app-tool-bar (searchOutput)="updateResearchValue($event)" (btnValueOutput)="updateFilterBtnValue($event)" (categoryFilterOutput)="updateCategoryFilterValue($event)" [countApplicationsApplied]="countApplicationsApplied()" [countApplicationsClosed]="countApplicationsClosed()"
                 [countApplicationsRelaunched]="countApplicationsRelaunched()" [countApplicationsToApply]="countApplicationsToApply()"
-                [countApplicationsToRelaunch]="countApplicationsToRelaunch()" [applicationsTotalCount]="applicationsTotalCount()" />
+                [countApplicationsToRelaunch]="countApplicationsToRelaunch()" [applicationsTotalCount]="applicationsTotalCount()"
+                [allCategories]="allApplicationsCategoriesSignal()" />
 </div>
 <div class="flex gap-5">
   <div class="space-x-5">

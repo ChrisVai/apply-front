@@ -107,16 +107,37 @@ export class HomeComponent {
         .includes(this.filterValue().toLowerCase())
     )
   );
+  categoryAndStatusFilteredApplicationSignal: Signal<ApplicationModel[]> =
+    computed(() =>
+      this.statusFilteredApplicationSignal().filter(application => {
+        if (
+          !this.categoryFilterValue().includes('none') &&
+          !this.categoryFilterValue().includes('all')
+        )
+          if (application.category) {
+            return application.category
+              ?.toLowerCase()
+              .includes(this.categoryFilterValue().toLowerCase());
+          }
+        if (this.categoryFilterValue().includes('none')) {
+          return !application.category;
+        }
+        if (this.categoryFilterValue().includes('all')) {
+          return application;
+        }
+        return null;
+      })
+    );
   filteredApplicationsSignal: Signal<ApplicationModel[]> = computed(() =>
-    this.statusFilteredApplicationSignal().filter(application => {
+    this.categoryAndStatusFilteredApplicationSignal().filter(application => {
       if (application.title) {
         return (
           application.title
             .toLowerCase()
-            .includes(this.searchInput().toLowerCase()) ||
+            .includes(this.searchInputValue().toLowerCase()) ||
           application.company?.name
             .toLowerCase()
-            .includes(this.searchInput().toLowerCase())
+            .includes(this.searchInputValue().toLowerCase())
         );
       }
       return application;
@@ -134,8 +155,9 @@ export class HomeComponent {
   /*
     Toolbar's filters values
    */
-  searchInput: WritableSignal<string> = signal('');
+  searchInputValue: WritableSignal<string> = signal('');
   filterValue: WritableSignal<string> = signal('');
+  categoryFilterValue: WritableSignal<string> = signal('');
   /*
     Public variables
    */
@@ -160,11 +182,15 @@ export class HomeComponent {
     this._refreshApplicationsTrigger$.next();
   }
 
-  updateResearch($event: string) {
-    this.searchInput.set($event);
+  updateResearchValue(event: string) {
+    this.searchInputValue.set(event);
   }
 
-  filterBtnValue($event: string) {
-    this.filterValue.set($event);
+  updateFilterBtnValue(event: string) {
+    this.filterValue.set(event);
+  }
+
+  updateCategoryFilterValue(event: string) {
+    this.categoryFilterValue.set(event);
   }
 }
