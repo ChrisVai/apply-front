@@ -1,4 +1,12 @@
-import { Component, inject, input, InputSignal, output } from '@angular/core';
+import {
+  Component,
+  inject,
+  input,
+  InputSignal,
+  output,
+  signal,
+  Signal,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { StatusChipsBtnComponent } from './status-chips-btn/status-chips-btn.component';
 import { outputFromObservable } from '@angular/core/rxjs-interop';
@@ -21,6 +29,7 @@ export class ToolBarComponent {
   countApplicationsToRelaunch: InputSignal<number> = input.required<number>();
   countApplicationsRelaunched: InputSignal<number> = input.required<number>();
   allSectors: InputSignal<SectorModel[]> = input.required<SectorModel[]>();
+  btnValueOutput = output<string>();
 
   private readonly _fb: FormBuilder = inject(FormBuilder);
   status = Status;
@@ -40,7 +49,6 @@ export class ToolBarComponent {
       map(() => this.searchForm.controls.category.value)
     )
   );
-  btnValueOutput = output<string>();
 
   btnValue(event: string) {
     this.btnValueOutput.emit(event);

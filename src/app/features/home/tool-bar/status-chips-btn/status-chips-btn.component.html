@@ -1,6 +1,52 @@
-<button (click)="returnBtnFilterValue(data)" class="flex justify-between bg-app-gray-100 drop-shadow-sm hover:drop-shadow-lg rounded-xl px-3 py-1.5 w-40">
-  <p class="self-center">{{data}}</p>
-  @if(count() !== undefined) {
-    <span class="text-sm rounded-full px-3 py-1 bg-app-gray-200">{{count()}}</span>
+@switch (status) {
+  @case ('Tout') {
+    <button (click)="returnBtnFilterValue(status)" class="flex justify-between text-app-blue-400 bg-app-gray-100 border border-app-blue-400 shadow-sm hover:shadow-lg rounded-xl px-3 py-1.5 w-40" [class.bg-app-blue-200]="isBtnSelected">
+      <p class="self-center">{{status}}</p>
+      @if(count() !== undefined) {
+        <span class="text-sm rounded-full px-3 py-1 bg-app-gray-50">{{count()}}</span>
+      }
+    </button>
   }
-</button>
+  @case (Status.toApply) {
+    <button (click)="returnBtnFilterValue(status)" class="flex justify-between text-app-yellow-400 bg-app-gray-100 border border-app-yellow-400 shadow-sm hover:shadow-lg rounded-xl px-3 py-1.5 w-40" [class.bg-app-yellow-200]="isBtnSelected">
+      <p class="self-center">{{status}}</p>
+      @if(count() !== undefined) {
+        <span class="text-sm rounded-full px-3 py-1 bg-app-gray-50">{{count()}}</span>
+      }
+    </button>
+  }
+  @case (Status.applied) {
+    <button (click)="returnBtnFilterValue(status)" class="flex justify-between text-app-green-400 bg-app-gray-100 border border-app-green-400 shadow-sm hover:shadow-lg rounded-xl px-3 py-1.5 w-40" [class.bg-app-green-200]="isBtnSelected">
+      <p class="self-center">{{status}}</p>
+      @if(count() !== undefined) {
+        <span class="text-sm rounded-full px-3 py-1 bg-app-gray-50">{{count()}}</span>
+      }
+    </button>
+  }
+  @case (Status.toRelaunch) {
+    <button (click)="returnBtnFilterValue(status)" class="flex justify-between text-app-yellow-400 bg-app-gray-100 border border-app-yellow-400 shadow-sm hover:shadow-lg rounded-xl px-3 py-1.5 w-40" [class.bg-app-yellow-200]="isBtnSelected">
+      <p class="self-center">{{status}}</p>
+      @if(count() !== undefined) {
+        <span class="text-sm rounded-full px-3 py-1 bg-app-gray-50">{{count()}}</span>
+      }
+    </button>
+  }
+  @case (Status.relaunched) {
+    <button (click)="returnBtnFilterValue(status)" class="flex justify-between text-app-green-400 bg-app-gray-100 border border-app-green-400 shadow-sm hover:shadow-lg rounded-xl px-3 py-1.5 w-40" [class.bg-app-green-200]="isBtnSelected">
+      <p class="self-center">{{status}}</p>
+      @if(count() !== undefined) {
+        <span class="text-sm rounded-full px-3 py-1 bg-app-gray-50">{{count()}}</span>
+      }
+    </button>
+  }
+  @case (Status.closed) {
+    <button (click)="returnBtnFilterValue(status)" class="flex justify-between text-app-red-400 bg-app-gray-100 border border-app-red-400 shadow-sm hover:shadow-lg rounded-xl px-3 py-1.5 w-40" [class.bg-app-red-200]="isBtnSelected">
+      <p class="self-center">{{status}}</p>
+      @if(count() !== undefined) {
+        <span class="text-sm rounded-full px-3 py-1 bg-app-gray-50">{{count()}}</span>
+      }
+    </button>
+  }
+}
+
+
