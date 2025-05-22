@@ -54,15 +54,19 @@
       }
     </div>
     <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
-      <label for="comments" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Commentaires</label>
-      <input id="comments" name="comments" type="text" formControlName="comments" placeholder="Commentaires" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
-    </div>
-    <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
       <label for="applied" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Postulé</label>
       <select id="applied" name="applied" type="boolean" formControlName="applied" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
         <option [ngValue]= true>Oui</option>
         <option [ngValue]= false>Non</option>
       </select>
+    </div>
+    <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
+      <label for="appliedOn" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Date</label>
+      <input id="appliedOn" name="appliedOn" type="date" formControlName="appliedOn" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+    </div>
+    <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
+      <label for="comments" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Commentaires</label>
+      <input id="comments" name="comments" type="text" formControlName="comments" placeholder="Commentaires" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
     </div>
   </form>
   <div class="flex justify-center">

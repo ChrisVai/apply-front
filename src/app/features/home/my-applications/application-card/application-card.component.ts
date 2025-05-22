@@ -15,11 +15,12 @@ import {
 } from '../../../../shared/models/applicationModel';
 import { ApplicationService } from '../../../../shared/services/application/application.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-application-card',
   standalone: true,
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './application-card.component.html',
   styleUrl: './application-card.component.scss',
 })

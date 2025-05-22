@@ -57,7 +57,7 @@ export class AddApplicationComponent {
       ),
     ],
     applied: [false, [Validators.required]],
-    appliedOn: [''],
+    appliedOn: [new Date(Date.now()).toISOString()],
     comments: [''],
     status: [Status.toApply, [Validators.required]],
   });
@@ -88,7 +88,7 @@ export class AddApplicationComponent {
       title: val.title,
       sectorId: val.sector,
       applied: val.applied,
-      appliedOn: undefined,
+      appliedOn: val.appliedOn,
       companyId: val.company,
       offerUrl: val.offerUrl!,
       recruiterResponse: undefined,
@@ -97,7 +97,6 @@ export class AddApplicationComponent {
       userId: this.currentUser()?.id!,
     };
     if (this.currentUser()) {
-      console.log('passage dans addApplication', application);
       this._applicationService
         .addApplication(application)
         .pipe(takeUntilDestroyed(this._destroyRef))
@@ -105,6 +104,7 @@ export class AddApplicationComponent {
           next: () => {
             this.applicationAddedSignal.set(true);
             this.isAddSectorFieldVisible = false;
+            this.addApplicationForm.reset();
             this.applicationAddedOutput.emit();
           },
           error: err =>

@@ -1,11 +1,13 @@
 <div>
-  @if(application.sector) {
-    <p class="text-xs w-fit bg-app-blue-200 px-2 py-1 rounded-t-xl drop-shadow-md">{{application.sector.name}}</p>
-  }
-
-  <div class="flex flex-row items-center justify-between bg-app-gray-100 drop-shadow-md p-3" [class.rounded-b-xl]="!showComments"
-       [class.rouned-tr-xl]="application.sector"
-       [class.rounded-xl]="!application.sector">
+  <div class="flex gap-2">
+    @if(application.appliedOn) {
+      <p class="text-xs font-semibold w-fit bg-app-green-200 px-2 py-1 rounded-t-xl drop-shadow-md">{{application.appliedOn | date: 'dd/MM/y'}}</p>
+    }
+    @if(application.sector) {
+      <p class="text-xs w-fit bg-app-blue-200 px-2 py-1 rounded-t-xl drop-shadow-md">{{application.sector.name}}</p>
+    }
+  </div>
+  <div class="flex flex-row items-center justify-between bg-app-gray-100 drop-shadow-md p-3 rounded-tr-xl" [class.rounded-b-xl]="!showComments">
     <h3 class="basis-1/4">{{application.title}}</h3>
     <p class="basis-1/5">{{application.company?.name}}</p>
     <div class="basis-1/8 outline outline-1 rounded-xl px-3 py-1.5 {{statusClass}}">
