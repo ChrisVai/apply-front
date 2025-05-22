@@ -5,6 +5,9 @@
       <label for="title" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Titre</label>
       <input id="title" name="title" type="text" formControlName="title" placeholder="Titre" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
     </div>
+    @if(isInvalidTitle()) {
+      <div class="text-app-red-600 text-xs font-light">Veuillez saisir un titre</div>
+    }
     <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
       <label for="company" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Entreprise</label>
       <select id="company" name="company" formControlName="company" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
@@ -27,8 +30,8 @@
     <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
       @if (allSectors().length === 0 || isAddSectorFieldVisible) {
         <div class="flex items-center grow bg-app-blue-50 rounded-md shadow-sm p-1">
-          <label for="sectorField" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Secteur</label>
-          <input id="sectorField" name="sector" type="text" formControlName="sector" placeholder="Secteur" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+          <label for="addSectorField" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Secteur</label>
+          <input id="addSectorField" name="addSector" type="text" formControlName="addSector" placeholder="Secteur" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
         </div>
         <button (click)=addSector()>
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#43e588"><path d="M400-304 240-464l56-56 104 104 264-264 56 56-320 320Z"/></svg>
@@ -39,7 +42,7 @@
       }
       @if(allSectors().length > 0 && !isAddSectorFieldVisible) {
         <label for="sectorSelect" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Secteur</label>
-        <select id="sectorSelect" name="sector" type="text" formControlName="sector" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+        <select id="sectorSelect" name="sector" formControlName="sector" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
           @for (sector of allSectors(); track sector.id) {
             <option [ngValue]= sector.id>{{sector.name}}</option>
           }
@@ -70,6 +73,6 @@
     </div>
   </form>
   <div class="flex justify-center">
-    <app-button (click)="addApplication()" ariaLabel="Ajouter une candidature" btnLabel="Ajouter"/>
+    <app-button (click)="addApplication()" [disabled]="isInvalidForm()" ariaLabel="Ajouter une candidature" btnLabel="Ajouter"/>
   </div>
 </div>

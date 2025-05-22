@@ -1,8 +1,8 @@
 import {
   Component,
+  computed,
   DestroyRef,
   inject,
-  Input,
   input,
   InputSignal,
   output,
@@ -21,9 +21,10 @@ import {
 import { CompanyModel } from '../../../shared/models/companyModel';
 import { AuthService } from '../../auth/service/authService/auth.service';
 import { UserModel } from '../../../shared/models/userModel';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { SectorModel } from '../../../shared/models/sectorModel';
 import { SectorService } from '../../../shared/services/sector/sector.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-add-application',
@@ -47,8 +48,9 @@ export class AddApplicationComponent {
   private readonly _fb: FormBuilder = inject(FormBuilder);
 
   addApplicationForm = this._fb.nonNullable.group({
-    title: [''],
-    sector: [],
+    title: ['', [Validators.required]],
+    sector: [1, Validators.required],
+    addSector: [''],
     company: [1, [Validators.required]],
     offerUrl: [
       null,
@@ -57,7 +59,7 @@ export class AddApplicationComponent {
       ),
     ],
     applied: [false, [Validators.required]],
-    appliedOn: [new Date(Date.now()).toISOString()],
+    appliedOn: [new Date(Date.now()).toISOString(), [Validators.required]],
     comments: [''],
     status: [Status.toApply, [Validators.required]],
   });
@@ -67,6 +69,45 @@ export class AddApplicationComponent {
 
   currentUser: Signal<UserModel | null> = this._authService.currentUser;
   applicationAddedSignal: WritableSignal<boolean> = signal<boolean>(false);
+  /*
+  Checking empty and untouched fields to match validators
+  */
+  isInvalidTitle: Signal<boolean | undefined> = toSignal(
+    this.addApplicationForm.controls.title.statusChanges.pipe(
+      map(
+        () =>
+          (this.addApplicationForm.controls.title.invalid ||
+            this.addApplicationForm.controls.title.pristine) &&
+          (this.addApplicationForm.controls.title.dirty ||
+            this.addApplicationForm.controls.title.touched)
+      )
+    )
+  );
+  isInvalidCompany: Signal<boolean | undefined> = toSignal(
+    this.addApplicationForm.controls.company.statusChanges.pipe(
+      map(
+        () =>
+          (this.addApplicationForm.controls.company.invalid ||
+            this.addApplicationForm.controls.company.pristine) &&
+          (this.addApplicationForm.controls.company.dirty ||
+            this.addApplicationForm.controls.company.touched)
+      )
+    )
+  );
+  isTitlePristine: Signal<boolean | undefined> = toSignal(
+    this.addApplicationForm.controls.title.statusChanges.pipe(
+      map(() => this.addApplicationForm.controls.title.pristine)
+    )
+  );
+  isInvalidForm: Signal<boolean> = computed(
+    () =>
+      this.isTitlePristine() ||
+      this.isTitlePristine === undefined ||
+      this.isInvalidTitle() ||
+      this.isInvalidTitle() === undefined ||
+      this.isInvalidCompany() ||
+      this.isInvalidCompany() === undefined
+  );
 
   /*
     Functions
@@ -119,7 +160,7 @@ export class AddApplicationComponent {
 
   addSector() {
     this._sectorService
-      .addSector(this.addApplicationForm.controls.sector.value)
+      .addSector(this.addApplicationForm.controls.addSector.value)
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: () => {
