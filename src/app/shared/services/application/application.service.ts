@@ -1,18 +1,89 @@
-import { inject, Injectable } from '@angular/core';
+import {
+  inject,
+  Injectable,
+  signal,
+  Signal,
+  WritableSignal,
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment.development';
-import { ApplicationModel } from '../../models/applicationModel';
-import { Observable } from 'rxjs';
+import { ApplicationModel, Status } from '../../models/applicationModel';
+import { BehaviorSubject, Observable, switchMap, tap, map } from 'rxjs';
 import { StorageService } from '../storage/storage.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApplicationService {
+  /*
+  Dependencies
+  */
   private readonly _http: HttpClient = inject(HttpClient);
+  private readonly _storageService: StorageService = inject(StorageService);
+  /*
+  Env variable
+   */
   private readonly _apiUrlApplications: string =
     environment.apiUrl + '/applications';
-  private readonly _storageService: StorageService = inject(StorageService);
+  /*
+Triggers
+ */
+  private _refreshApplicationsTrigger$: BehaviorSubject<void> =
+    new BehaviorSubject<void>(undefined);
+  /*
+  Public properties
+   */
+  currentUserApplications$: Observable<ApplicationModel[]> =
+    this._refreshApplicationsTrigger$.pipe(
+      switchMap(() =>
+        //to get newer applications at the beginning of the array
+        this.getCurrentUserApplications().pipe(
+          map(applications => applications.reverse()),
+          tap(applications => {
+            for (let application of applications) {
+              this.applicationsTotalCount.set(applications.length);
+              switch (application.status) {
+                case Status.closed:
+                  this.countApplicationsClosed.update(value => value + 1);
+                  break;
+                case Status.applied:
+                  this.countApplicationsApplied.update(value => value + 1);
+                  break;
+                case Status.toApply:
+                  this.countApplicationsToApply.update(value => value + 1);
+                  break;
+                case Status.relaunched:
+                  this.countApplicationsRelaunched.update(value => value + 1);
+                  break;
+                case Status.toRelaunch:
+                  this.countApplicationsToRelaunch.update(value => value + 1);
+              }
+            }
+          })
+        )
+      )
+    );
+
+  currentUserApplicationsSignal: Signal<ApplicationModel[]> = toSignal(
+    this.currentUserApplications$,
+    { initialValue: [] }
+  );
+  /*
+    Applications count by Status
+  */
+  applicationsTotalCount: WritableSignal<number> = signal<number>(0);
+  countApplicationsToApply: WritableSignal<number> = signal<number>(0);
+  countApplicationsClosed: WritableSignal<number> = signal<number>(0);
+  countApplicationsApplied: WritableSignal<number> = signal<number>(0);
+  countApplicationsToRelaunch: WritableSignal<number> = signal<number>(0);
+  countApplicationsRelaunched: WritableSignal<number> = signal<number>(0);
+  /*
+  CRUD Functions
+   */
+  refreshApplications(): void {
+    this._refreshApplicationsTrigger$.next();
+  }
 
   getCurrentUserApplications(): Observable<ApplicationModel[]> {
     return this._http.get<ApplicationModel[]>(

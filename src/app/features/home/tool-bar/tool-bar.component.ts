@@ -4,8 +4,7 @@ import {
   input,
   InputSignal,
   output,
-  signal,
-  Signal,
+  WritableSignal,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { StatusChipsBtnComponent } from './status-chips-btn/status-chips-btn.component';
@@ -13,6 +12,7 @@ import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { map, startWith } from 'rxjs';
 import { Status } from '../../../shared/models/applicationModel';
 import { SectorModel } from '../../../shared/models/sectorModel';
+import { ApplicationService } from '../../../shared/services/application/application.service';
 
 @Component({
   selector: 'app-tool-bar',
@@ -22,22 +22,46 @@ import { SectorModel } from '../../../shared/models/sectorModel';
   styleUrl: './tool-bar.component.scss',
 })
 export class ToolBarComponent {
-  applicationsTotalCount: InputSignal<number> = input.required<number>();
-  countApplicationsToApply: InputSignal<number> = input.required<number>();
-  countApplicationsClosed: InputSignal<number> = input.required<number>();
-  countApplicationsApplied: InputSignal<number> = input.required<number>();
-  countApplicationsToRelaunch: InputSignal<number> = input.required<number>();
-  countApplicationsRelaunched: InputSignal<number> = input.required<number>();
+  /**
+   * Input
+   */
   allSectors: InputSignal<SectorModel[]> = input.required<SectorModel[]>();
+  /**
+   * Output
+   */
   btnValueOutput = output<string>();
-
+  /**
+   * Dependencies
+   * @private
+   */
   private readonly _fb: FormBuilder = inject(FormBuilder);
+  private readonly _applicationService = inject(ApplicationService);
+  /**
+   * Applications count by Status
+   */
+  applicationsTotalCount: WritableSignal<number> =
+    this._applicationService.applicationsTotalCount;
+  countApplicationsToApply: WritableSignal<number> =
+    this._applicationService.countApplicationsToApply;
+  countApplicationsClosed: WritableSignal<number> =
+    this._applicationService.countApplicationsClosed;
+  countApplicationsApplied: WritableSignal<number> =
+    this._applicationService.countApplicationsApplied;
+  countApplicationsToRelaunch: WritableSignal<number> =
+    this._applicationService.countApplicationsToRelaunch;
+  countApplicationsRelaunched: WritableSignal<number> =
+    this._applicationService.countApplicationsRelaunched;
   status = Status;
-
+  /**
+   * Form Init
+   */
   searchForm = this._fb.nonNullable.group({
     searchInput: [''],
     category: ['all'],
   });
+  /**
+   * Form Output from Observable
+   */
   searchOutput = outputFromObservable(
     this.searchForm.controls.searchInput.statusChanges.pipe(
       map(() => this.searchForm.controls.searchInput.value)

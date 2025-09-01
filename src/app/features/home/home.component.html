@@ -1,17 +1,15 @@
 <div class="mb-10">
-  <app-tool-bar (searchOutput)="updateResearchValue($event)" (btnValueOutput)="updateFilterBtnValue($event)" (categoryFilterOutput)="updateCategoryFilterValue($event)" [countApplicationsApplied]="countApplicationsApplied()" [countApplicationsClosed]="countApplicationsClosed()"
-                [countApplicationsRelaunched]="countApplicationsRelaunched()" [countApplicationsToApply]="countApplicationsToApply()"
-                [countApplicationsToRelaunch]="countApplicationsToRelaunch()" [applicationsTotalCount]="applicationsTotalCount()"
+  <app-tool-bar (searchOutput)="updateResearchValue($event)" (btnValueOutput)="updateFilterBtnValue($event)" (categoryFilterOutput)="updateCategoryFilterValue($event)"
                 [allSectors]="allSectorsSignal()" />
 </div>
 <div class="flex gap-5">
   <div class="space-x-5">
-    <app-add-application [allCompanies]="allCompaniesSignal()" [allSectors]="allSectorsSignal()" (showAddCompanyFormOutput)="showAddCompanyFormEvent($event)" (applicationAddedOutput)="refreshApplications()" (sectorAddedOutput)="refreshSectors()" />
+    <app-add-application [allCompanies]="allCompaniesSignal()" [allSectors]="allSectorsSignal()" (showAddCompanyFormOutput)="showAddCompanyFormEvent($event)" (sectorAddedOutput)="refreshSectors()" />
     @if(showAddCompanyForm) {
       <app-add-company (closeAddCompanyFormOutput)="showAddCompanyFormEvent($event)" (companyAddedOutput)="refreshCompanies()"/>
     }
   </div>
   <div class="grow">
-    <app-my-applications [myApplications]="filteredApplicationsSignal()" (refreshApplicationsOutput)="refreshApplications()"/>
+    <app-my-applications [myApplications]="filteredApplicationsSignal()" />
   </div>
 </div>
