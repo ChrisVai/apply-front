@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment.development';
 import { ApplicationModel } from '../../models/applicationModel';
 import { Observable } from 'rxjs';
-import { AuthService } from '../../../features/auth/service/authService/auth.service';
 import { StorageService } from '../storage/storage.service';
 
 @Injectable({
@@ -30,6 +29,21 @@ export class ApplicationService {
         title: application.title,
         sector: application.sectorId,
         company: application.companyId,
+        offerUrl: application.offerUrl,
+        applied: application.applied,
+        appliedOn: application.appliedOn,
+        comments: application.comments,
+        status: application.status,
+      },
+      { withCredentials: true }
+    );
+  }
+
+  updateApplicationById(id: number, application: Partial<ApplicationModel>) {
+    return this._http.patch<Partial<ApplicationModel>>(
+      `${this._apiUrlApplications}/${id}`,
+      {
+        title: application.title,
         offerUrl: application.offerUrl,
         applied: application.applied,
         appliedOn: application.appliedOn,

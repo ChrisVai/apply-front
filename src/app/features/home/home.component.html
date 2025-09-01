@@ -12,6 +12,6 @@
     }
   </div>
   <div class="grow">
-    <app-my-applications [myApplications]="filteredApplicationsSignal()" (applicationDeletedOutput)="refreshApplications()"/>
+    <app-my-applications [myApplications]="filteredApplicationsSignal()" (refreshApplicationsOutput)="refreshApplications()"/>
   </div>
 </div>

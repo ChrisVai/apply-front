@@ -18,9 +18,10 @@ import { ApplicationModel } from '../../../shared/models/applicationModel';
 export class MyApplicationsComponent {
   myApplications: InputSignal<ApplicationModel[]> =
     input.required<ApplicationModel[]>();
-  applicationDeletedOutput: OutputEmitterRef<void> = output<void>();
+
+  refreshApplicationsOutput: OutputEmitterRef<void> = output<void>();
 
   spreadApplicationDeletedEvent() {
-    this.applicationDeletedOutput.emit();
+    this.refreshApplicationsOutput.emit();
   }
 }

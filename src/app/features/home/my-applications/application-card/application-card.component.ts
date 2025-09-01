@@ -2,11 +2,16 @@ import {
   Component,
   DestroyRef,
   inject,
+  input,
   Input,
+  InputSignal,
+  OnChanges,
   OnInit,
   output,
   OutputEmitterRef,
+  Signal,
   signal,
+  SimpleChanges,
   WritableSignal,
 } from '@angular/core';
 import {
@@ -16,17 +21,29 @@ import {
 import { ApplicationService } from '../../../../shared/services/application/application.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DatePipe } from '@angular/common';
+import { EditApplicationComponent } from './edit-application/edit-application.component';
+import {
+  FormBuilder,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-application-card',
   standalone: true,
-  imports: [DatePipe],
+  imports: [
+    DatePipe,
+    EditApplicationComponent,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './application-card.component.html',
   styleUrl: './application-card.component.scss',
 })
 export class ApplicationCardComponent implements OnInit {
   @Input({ required: true }) application!: ApplicationModel;
-  applicationDeletedOutput: OutputEmitterRef<void> = output<void>();
+  refreshApplicationsOutput: OutputEmitterRef<void> = output<void>();
 
   private readonly _applicationService: ApplicationService =
     inject(ApplicationService);
@@ -38,6 +55,15 @@ export class ApplicationCardComponent implements OnInit {
   showEditor: boolean = false;
   statusClass: string = '';
 
+  spreadApplicationModifiedEvent() {
+    this.refreshApplicationsOutput.emit();
+    this.closeEditor();
+  }
+
+  closeEditor() {
+    this.showEditor = false;
+  }
+
   deleteApplication(id: number) {
     this._applicationService
       .deleteApplicationById(id)
@@ -45,7 +71,7 @@ export class ApplicationCardComponent implements OnInit {
       .subscribe({
         next: () => {
           this.applicationDeleted.set(true);
-          this.applicationDeletedOutput.emit();
+          this.refreshApplicationsOutput.emit();
         },
         error: () => console.error('application non supprimée'),
         complete: () => console.log('application supprimée'),
