@@ -1,0 +1,78 @@
+<div class="bg-app-blue-100 rounded-xl drop-shadow-md pr-5 pl-5 pb-5 animate-appear">
+  <h2 class="text-center bg-app-blue-200 rounded-b-xl mb-7 px-3 py-1.5 shadow-sm">Ajouter une candidature</h2>
+  <form [formGroup]="addApplicationForm" class="space-y-3 mb-5">
+    <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
+      <label for="title" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Titre</label>
+      <input id="title" name="title" type="text" formControlName="title" placeholder="Titre" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+    </div>
+    @if(isInvalidTitle()) {
+      <div class="text-app-red-600 text-xs font-light">Veuillez saisir un titre</div>
+    }
+    <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
+      <label for="company" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Entreprise</label>
+      <select id="company" name="company" formControlName="company" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+        @for (company of allCompanies(); track company.id) {
+          <option [ngValue]= company.id >{{company.name}}</option>
+        }
+      </select>
+      <button (click)="showAddCompanyForm()">
+        @if(!isAddCompanyFormVisible) {
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#32c5fe"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+        } @else {
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#32c5fe"><path d="M200-440v-80h560v80H200Z"/></svg>
+        }
+      </button>
+    </div>
+    <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
+      <label for="offerUrl" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Url de l'offre</label>
+      <input id="offerUrl" name="offerUrl" type="text" formControlName="offerUrl" placeholder="https://....." class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+    </div>
+    <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
+      @if (allSectors().length === 0 || isAddSectorFieldVisible) {
+        <div class="flex items-center grow bg-app-blue-50 rounded-md shadow-sm p-1">
+          <label for="addSectorField" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Secteur</label>
+          <input id="addSectorField" name="addSector" type="text" formControlName="addSector" placeholder="Secteur" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+        </div>
+        <button (click)=addSector()>
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#43e588"><path d="M400-304 240-464l56-56 104 104 264-264 56 56-320 320Z"/></svg>
+        </button>
+        <button (click)="isAddSectorFieldVisible = !isAddSectorFieldVisible">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#f57942"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+        </button>
+      }
+      @if(allSectors().length > 0 && !isAddSectorFieldVisible) {
+        <label for="sectorSelect" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Secteur</label>
+        <select id="sectorSelect" name="sector" formControlName="sector" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+          @for (sector of allSectors(); track sector.id) {
+            <option [ngValue]= sector.id>{{sector.name}}</option>
+          }
+        </select>
+        <button (click)="showAddSectorField()">
+          @if(!isAddSectorFieldVisible) {
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#32c5fe"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+          } @else {
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#32c5fe"><path d="M200-440v-80h560v80H200Z"/></svg>
+          }
+        </button>
+      }
+    </div>
+    <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
+      <label for="applied" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50">Postulé</label>
+      <select id="applied" name="applied" type="boolean" formControlName="applied" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+        <option [ngValue]= true>Oui</option>
+        <option [ngValue]= false>Non</option>
+      </select>
+    </div>
+    <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
+      <label for="appliedOn" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Date</label>
+      <input id="appliedOn" name="appliedOn" type="date" formControlName="appliedOn" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+    </div>
+    <div class="flex items-center bg-app-blue-50 rounded-md shadow-sm p-1">
+      <label for="comments" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 whitespace-nowrap">Commentaires</label>
+      <input id="comments" name="comments" type="text" formControlName="comments" placeholder="Commentaires" class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+    </div>
+  </form>
+  <div class="flex justify-center">
+    <app-button (click)="addApplication()" [disabled]="isInvalidForm()" ariaLabel="Ajouter une candidature" btnLabel="Ajouter"/>
+  </div>
+</div>

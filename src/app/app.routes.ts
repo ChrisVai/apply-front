@@ -1,8 +1,5 @@
 import { Routes } from '@angular/router';
-import { AuthComponent } from './features/auth/auth-component/auth.component';
-import { HomeComponent } from './features/home/home.component';
 import { authGuard } from './guards/auth.guard';
-import { CreateAccountComponent } from './features/create-account/create-account.component';
 
 export const routes: Routes = [
   {
@@ -12,18 +9,25 @@ export const routes: Routes = [
   },
   {
     path: 'auth',
-    component: AuthComponent,
+    loadComponent: () =>
+      import('./features/auth/auth-component/auth.component').then(
+        c => c.AuthComponent
+      ),
     pathMatch: 'full',
   },
   {
     path: 'home',
-    component: HomeComponent,
+    loadComponent: () =>
+      import('./features/home/home.component').then(c => c.HomeComponent),
     canActivate: [authGuard],
     pathMatch: 'full',
   },
   {
     path: 'create-account',
-    component: CreateAccountComponent,
+    loadComponent: () =>
+      import('./features/create-account/create-account.component').then(
+        c => c.CreateAccountComponent
+      ),
     pathMatch: 'full',
   },
 ];

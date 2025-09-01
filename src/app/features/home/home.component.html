@@ -1,11 +1,17 @@
-
+<div class="mb-10">
+  <app-tool-bar (searchOutput)="updateResearchValue($event)" (btnValueOutput)="updateFilterBtnValue($event)" (categoryFilterOutput)="updateCategoryFilterValue($event)" [countApplicationsApplied]="countApplicationsApplied()" [countApplicationsClosed]="countApplicationsClosed()"
+                [countApplicationsRelaunched]="countApplicationsRelaunched()" [countApplicationsToApply]="countApplicationsToApply()"
+                [countApplicationsToRelaunch]="countApplicationsToRelaunch()" [applicationsTotalCount]="applicationsTotalCount()"
+                [allSectors]="allSectorsSignal()" />
+</div>
 <div class="flex gap-5">
-  <div class="bg-app-veryLightGrey w-1/5 h-dvh border border-solid border-app-lightGrey rounded-xl shadow-lg p-5">
-    <h2 class="text-center">{{currentUser()?.firstName}} {{currentUser()?.lastName}}</h2>
+  <div class="space-x-5">
+    <app-add-application [allCompanies]="allCompaniesSignal()" [allSectors]="allSectorsSignal()" (showAddCompanyFormOutput)="showAddCompanyFormEvent($event)" (applicationAddedOutput)="refreshApplications()" (sectorAddedOutput)="refreshSectors()" />
+    @if(showAddCompanyForm) {
+      <app-add-company (closeAddCompanyFormOutput)="showAddCompanyFormEvent($event)" (companyAddedOutput)="refreshCompanies()"/>
+    }
   </div>
-  <div class="bg-app-veryLightGrey flex-col grow h-dvh border border-solid border-app-lightGrey rounded-xl shadow-lg p-5">
-    <div class="flex justify-center">
-      <h2 class="text-center bg-app-blue rounded-xl p-3 shadow-md">Mes candidatures</h2>
-    </div>
+  <div class="grow">
+    <app-my-applications [myApplications]="filteredApplicationsSignal()" (refreshApplicationsOutput)="refreshApplications()"/>
   </div>
 </div>

@@ -1,0 +1,29 @@
+ <div class="bg-app-blue-100 rounded-xl drop-shadow-md pr-5 pl-5 pb-5">
+   <h2 class="text-center bg-app-blue-200 rounded-b-xl px-3 py-1.5 w-1/12 shadow-sm">Filtres</h2>
+     <form class="flex mb-5 gap-2 justify-evenly" [formGroup]="searchForm">
+       <div class="flex gap-2 w-1/3">
+         <label class="self-center" for="searchInput">
+           <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#79d8ff"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
+         </label>
+         <input id="searchInput" name="searchInput" type="text" formControlName="searchInput" placeholder="Rechercher" class="w-full rounded-xl border-0 py-1.5 px-3 drop-shadow-md ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+       </div>
+       <div class="flex bg-app-gray-100 p-1.5 rounded-xl drop-shadow-md w-1/3">
+         <label for="categorySelect" class="block rounded-l-md text-sm/6 font-medium text-app-primaryFontColor py-1.5 px-3 bg-app-blue-50 text-nowrap">Secteurs d'activité</label>
+         <select id="categorySelect" name="category" type="text" formControlName="category" required class="block w-full rounded-r-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-app-blue-100 placeholder:text-app-primaryFontColor-400 sm:text-sm/6 text-app-blue-400">
+           <option value="all" selected>Tous</option>
+           @for (sector of allSectors(); track sector.id) {
+             <option [ngValue]= sector.name>{{sector.name}}</option>
+           }
+           <option value="none">Sans</option>
+         </select>
+       </div>
+     </form>
+     <div class="flex grow justify-evenly">
+       <app-status-chips-btn [count]="applicationsTotalCount()" status="Tout" (btnValueOutput)="btnValue('')" />
+       <app-status-chips-btn [count]="countApplicationsToApply()"  [status]=status.toApply (btnValueOutput)="btnValue($event)" />
+       <app-status-chips-btn [count]="countApplicationsApplied()" [status]=status.applied (btnValueOutput)="btnValue($event)" />
+       <app-status-chips-btn [count]="countApplicationsToRelaunch()"  [status]=status.toRelaunch (btnValueOutput)="btnValue($event)" />
+       <app-status-chips-btn [count]="countApplicationsRelaunched()" [status]=status.relaunched (btnValueOutput)="btnValue($event)" />
+       <app-status-chips-btn [count]="countApplicationsClosed()" [status]=status.closed (btnValueOutput)="btnValue($event)" />
+     </div>
+   </div>

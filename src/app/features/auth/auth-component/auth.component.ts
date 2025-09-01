@@ -5,11 +5,18 @@ import { AuthService } from '../service/authService/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [NgOptimizedImage, ReactiveFormsModule, NgClass, RouterLink],
+  imports: [
+    NgOptimizedImage,
+    ReactiveFormsModule,
+    NgClass,
+    RouterLink,
+    ButtonComponent,
+  ],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',
 })
@@ -24,7 +31,7 @@ export class AuthComponent {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
   });
-
+  isConnected: Signal<boolean> = this._authService.isConnected;
   isInvalidMail: Signal<boolean | undefined> = toSignal(
     this.authForm.controls.email.statusChanges.pipe(
       map(

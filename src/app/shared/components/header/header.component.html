@@ -1,6 +1,14 @@
-<div class="flex justify-between p-3 shadow-md">
-  <img ngSrc="./assets/apply-logo.png" height="75" width="75" alt="apply logo" priority>
+<div class="flex justify-between items-center p-3 sticky shadow-lg bg-app-blue-400">
+  <button routerLink="/">
+    <img ngSrc="./assets/apply-logo.png" height="75" width="75" alt="apply logo" priority>
+  </button>
   @if(isConnected()) {
-    <app-button (click)="logout()" class= "self-center" ariaLabel="Se déconnecter" btnLabel="Déconnexion" [color]="btnColorPalette.blue"></app-button>
+    <div class="flex flex-row items-center gap-3 p-3 h-fit bg-app-blue-200 rounded-xl drop-shadow-md">
+      @if(currentUser()) {
+      <span>{{currentUser()?.firstName}} {{currentUser()?.lastName}}</span>
+      }
+      <app-button (click)="logout()" class= "self-center" ariaLabel="Se déconnecter" btnLabel="Déconnexion"/>
+    </div>
+
   }
 </div>
