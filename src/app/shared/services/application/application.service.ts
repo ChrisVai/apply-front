@@ -16,23 +16,26 @@ import { toSignal } from '@angular/core/rxjs-interop';
   providedIn: 'root',
 })
 export class ApplicationService {
-  /*
-  Dependencies
-  */
+  /**
+   * Dependencies
+   * @private
+   */
   private readonly _http: HttpClient = inject(HttpClient);
   private readonly _storageService: StorageService = inject(StorageService);
-  /*
-  Env variable
+  /**
+   * Env
+   * @private
    */
   private readonly _apiUrlApplications: string =
     environment.apiUrl + '/applications';
-  /*
-Triggers
- */
+  /**
+   * Triggers
+   * @private
+   */
   private _refreshApplicationsTrigger$: BehaviorSubject<void> =
     new BehaviorSubject<void>(undefined);
-  /*
-  Public properties
+  /**
+   * Public properties
    */
   currentUserApplications$: Observable<ApplicationModel[]> =
     this._refreshApplicationsTrigger$.pipe(
@@ -40,6 +43,7 @@ Triggers
         //to get newer applications at the beginning of the array
         this.getCurrentUserApplications().pipe(
           map(applications => applications.reverse()),
+          //counting Applications by status
           tap(applications => {
             for (let application of applications) {
               this.applicationsTotalCount.set(applications.length);
@@ -69,17 +73,17 @@ Triggers
     this.currentUserApplications$,
     { initialValue: [] }
   );
-  /*
-    Applications count by Status
-  */
+  /**
+   * Application's count by Status
+   */
   applicationsTotalCount: WritableSignal<number> = signal<number>(0);
   countApplicationsToApply: WritableSignal<number> = signal<number>(0);
   countApplicationsClosed: WritableSignal<number> = signal<number>(0);
   countApplicationsApplied: WritableSignal<number> = signal<number>(0);
   countApplicationsToRelaunch: WritableSignal<number> = signal<number>(0);
   countApplicationsRelaunched: WritableSignal<number> = signal<number>(0);
-  /*
-  CRUD Functions
+  /**
+   * Functions
    */
   refreshApplications(): void {
     this._refreshApplicationsTrigger$.next();

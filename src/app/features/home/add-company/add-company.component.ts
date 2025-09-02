@@ -12,7 +12,6 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CompanyModel } from '../../../shared/models/companyModel';
 import { CompanyService } from '../../../shared/services/company/company.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-add-company',
@@ -22,13 +21,24 @@ import { tap } from 'rxjs';
   styleUrl: './add-company.component.scss',
 })
 export class AddCompanyComponent {
+  /**
+   * Output
+   */
   closeAddCompanyFormOutput: OutputEmitterRef<boolean> = output<boolean>();
-  companyAddedOutput: OutputEmitterRef<void> = output<void>();
+  /**
+   * Dependencies
+   * @private
+   */
   private readonly _companyService: CompanyService = inject(CompanyService);
   private readonly _destroyRef: DestroyRef = inject(DestroyRef);
   private readonly _fb: FormBuilder = inject(FormBuilder);
+  /**
+   * Signal property
+   */
   isCompanyAdded: WritableSignal<boolean> = signal<boolean>(false);
-
+  /**
+   * Form init
+   */
   addCompanyForm = this._fb.nonNullable.group({
     name: ['', [Validators.required]],
     websiteUrl: [''],
@@ -36,6 +46,9 @@ export class AddCompanyComponent {
     emailContactAddress: [''],
   });
 
+  /**
+   * Functions
+   */
   closeAddCompanyForm() {
     this.closeAddCompanyFormOutput.emit(false);
   }
@@ -54,8 +67,9 @@ export class AddCompanyComponent {
       .subscribe({
         next: () => {
           this.isCompanyAdded.set(true);
-          this.companyAddedOutput.emit();
+          this._companyService.refreshCompanies();
         },
+        //todo: gerer les erreurs
         error: () => console.log('erreur'),
       });
   }

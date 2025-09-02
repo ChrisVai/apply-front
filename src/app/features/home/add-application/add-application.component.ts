@@ -25,6 +25,7 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { SectorModel } from '../../../shared/models/sectorModel';
 import { SectorService } from '../../../shared/services/sector/sector.service';
 import { map } from 'rxjs';
+import { CompanyService } from '../../../shared/services/company/company.service';
 
 @Component({
   selector: 'app-add-application',
@@ -34,11 +35,6 @@ import { map } from 'rxjs';
   styleUrl: './add-application.component.scss',
 })
 export class AddApplicationComponent {
-  /**
-   * Inputs
-   */
-  allCompanies: InputSignal<CompanyModel[]> = input.required<CompanyModel[]>();
-  allSectors: InputSignal<SectorModel[]> = input.required<SectorModel[]>();
   /**
    * Outputs
    */
@@ -51,6 +47,7 @@ export class AddApplicationComponent {
   private readonly _applicationService: ApplicationService =
     inject(ApplicationService);
   private readonly _sectorService: SectorService = inject(SectorService);
+  private readonly _companyService: CompanyService = inject(CompanyService);
   private readonly _authService: AuthService = inject(AuthService);
   private readonly _destroyRef: DestroyRef = inject(DestroyRef);
   private readonly _fb: FormBuilder = inject(FormBuilder);
@@ -82,6 +79,9 @@ export class AddApplicationComponent {
    * Signal properties
    */
   currentUser: Signal<UserModel | null> = this._authService.currentUser;
+  allCompanies: Signal<CompanyModel[]> =
+    this._companyService.allCompaniesSignal;
+  allSectors: Signal<SectorModel[]> = this._sectorService.allSectorsSignal;
   applicationAddedSignal: WritableSignal<boolean> = signal<boolean>(false);
   /**
    * Checking empty and untouched form fields to validate user input
@@ -177,9 +177,9 @@ export class AddApplicationComponent {
       .addSector(this.addApplicationForm.controls.addSector.value)
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
-        next: () => {
+        complete: () => {
           this.isAddSectorFieldVisible = false;
-          this.sectorAddedOutput.emit();
+          this._sectorService.refreshSectors();
         },
         //todo gèrer les messages d'erreur
         error: err =>

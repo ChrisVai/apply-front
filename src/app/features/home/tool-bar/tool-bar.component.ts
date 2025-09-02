@@ -1,9 +1,8 @@
 import {
   Component,
   inject,
-  input,
-  InputSignal,
   output,
+  Signal,
   WritableSignal,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -13,6 +12,7 @@ import { map, startWith } from 'rxjs';
 import { Status } from '../../../shared/models/applicationModel';
 import { SectorModel } from '../../../shared/models/sectorModel';
 import { ApplicationService } from '../../../shared/services/application/application.service';
+import { SectorService } from '../../../shared/services/sector/sector.service';
 
 @Component({
   selector: 'app-tool-bar',
@@ -23,10 +23,6 @@ import { ApplicationService } from '../../../shared/services/application/applica
 })
 export class ToolBarComponent {
   /**
-   * Input
-   */
-  allSectors: InputSignal<SectorModel[]> = input.required<SectorModel[]>();
-  /**
    * Output
    */
   btnValueOutput = output<string>();
@@ -36,6 +32,11 @@ export class ToolBarComponent {
    */
   private readonly _fb: FormBuilder = inject(FormBuilder);
   private readonly _applicationService = inject(ApplicationService);
+  private readonly _sectorService = inject(SectorService);
+  /**
+   * Public properties
+   */
+  allSectors: Signal<SectorModel[]> = this._sectorService.allSectorsSignal;
   /**
    * Applications count by Status
    */

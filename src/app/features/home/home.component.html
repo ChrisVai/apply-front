@@ -1,12 +1,11 @@
 <div class="mb-10">
-  <app-tool-bar (searchOutput)="updateResearchValue($event)" (btnValueOutput)="updateFilterBtnValue($event)" (categoryFilterOutput)="updateCategoryFilterValue($event)"
-                [allSectors]="allSectorsSignal()" />
+  <app-tool-bar (searchOutput)="updateResearchValue($event)" (btnValueOutput)="updateFilterBtnValue($event)" (categoryFilterOutput)="updateCategoryFilterValue($event)"/>
 </div>
 <div class="flex gap-5">
   <div class="space-x-5">
-    <app-add-application [allCompanies]="allCompaniesSignal()" [allSectors]="allSectorsSignal()" (showAddCompanyFormOutput)="showAddCompanyFormEvent($event)" (sectorAddedOutput)="refreshSectors()" />
+    <app-add-application (showAddCompanyFormOutput)="showAddCompanyFormEvent($event)" />
     @if(showAddCompanyForm) {
-      <app-add-company (closeAddCompanyFormOutput)="showAddCompanyFormEvent($event)" (companyAddedOutput)="refreshCompanies()"/>
+      <app-add-company (closeAddCompanyFormOutput)="showAddCompanyFormEvent($event)"/>
     }
   </div>
   <div class="grow">
