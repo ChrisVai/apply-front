@@ -44,38 +44,14 @@ export class ApplicationService {
         this.getCurrentUserApplications().pipe(
           map(applications => applications.reverse()),
           //counting Applications by status
-          tap(applications => {
-            for (let application of applications) {
-              this.applicationsTotalCount.set(applications.length);
-              switch (application.status) {
-                case Status.closed:
-                  this.countApplicationsClosed.update(value => value + 1);
-                  break;
-                case Status.applied:
-                  this.countApplicationsApplied.update(value => value + 1);
-                  break;
-                case Status.toApply:
-                  this.countApplicationsToApply.update(value => value + 1);
-                  break;
-                case Status.relaunched:
-                  this.countApplicationsRelaunched.update(value => value + 1);
-                  break;
-                case Status.toRelaunch:
-                  this.countApplicationsToRelaunch.update(value => value + 1);
-              }
-            }
-          })
+          tap(applications => this.countApplicationsByStatus(applications))
         )
       )
     );
-
   currentUserApplicationsSignal: Signal<ApplicationModel[]> = toSignal(
     this.currentUserApplications$,
     { initialValue: [] }
   );
-  /**
-   * Application's count by Status
-   */
   applicationsTotalCount: WritableSignal<number> = signal<number>(0);
   countApplicationsToApply: WritableSignal<number> = signal<number>(0);
   countApplicationsClosed: WritableSignal<number> = signal<number>(0);
@@ -86,7 +62,37 @@ export class ApplicationService {
    * Functions
    */
   refreshApplications(): void {
+    // Reset application's count
+    this.applicationsTotalCount.set(0);
+    this.countApplicationsToApply.set(0);
+    this.countApplicationsClosed.set(0);
+    this.countApplicationsApplied.set(0);
+    this.countApplicationsToRelaunch.set(0);
+    this.countApplicationsRelaunched.set(0);
+    // Trig the refresh
     this._refreshApplicationsTrigger$.next();
+  }
+
+  countApplicationsByStatus(applications: ApplicationModel[]) {
+    for (let application of applications) {
+      this.applicationsTotalCount.set(applications.length);
+      switch (application.status) {
+        case Status.closed:
+          this.countApplicationsClosed.update(value => value + 1);
+          break;
+        case Status.applied:
+          this.countApplicationsApplied.update(value => value + 1);
+          break;
+        case Status.toApply:
+          this.countApplicationsToApply.update(value => value + 1);
+          break;
+        case Status.relaunched:
+          this.countApplicationsRelaunched.update(value => value + 1);
+          break;
+        case Status.toRelaunch:
+          this.countApplicationsToRelaunch.update(value => value + 1);
+      }
+    }
   }
 
   getCurrentUserApplications(): Observable<ApplicationModel[]> {
