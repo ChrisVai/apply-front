@@ -15,17 +15,16 @@ import { ToolBarComponent } from './tool-bar/tool-bar.component';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [
-    AddApplicationComponent,
-    AddCompanyComponent,
-    MyApplicationsComponent,
-    ToolBarComponent,
-    FormsModule,
-  ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+    selector: 'app-home',
+    imports: [
+        AddApplicationComponent,
+        AddCompanyComponent,
+        MyApplicationsComponent,
+        ToolBarComponent,
+        FormsModule,
+    ],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.scss'
 })
 export class HomeComponent {
   /**

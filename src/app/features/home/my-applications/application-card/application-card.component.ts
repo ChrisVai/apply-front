@@ -18,16 +18,15 @@ import { EditApplicationComponent } from './edit-application/edit-application.co
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-application-card',
-  standalone: true,
-  imports: [
-    DatePipe,
-    EditApplicationComponent,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
-  templateUrl: './application-card.component.html',
-  styleUrl: './application-card.component.scss',
+    selector: 'app-application-card',
+    imports: [
+        DatePipe,
+        EditApplicationComponent,
+        FormsModule,
+        ReactiveFormsModule,
+    ],
+    templateUrl: './application-card.component.html',
+    styleUrl: './application-card.component.scss'
 })
 export class ApplicationCardComponent {
   /**

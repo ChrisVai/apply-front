@@ -8,17 +8,16 @@ import { map } from 'rxjs';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 
 @Component({
-  selector: 'app-auth',
-  standalone: true,
-  imports: [
-    NgOptimizedImage,
-    ReactiveFormsModule,
-    NgClass,
-    RouterLink,
-    ButtonComponent,
-  ],
-  templateUrl: './auth.component.html',
-  styleUrl: './auth.component.scss',
+    selector: 'app-auth',
+    imports: [
+        NgOptimizedImage,
+        ReactiveFormsModule,
+        NgClass,
+        RouterLink,
+        ButtonComponent,
+    ],
+    templateUrl: './auth.component.html',
+    styleUrl: './auth.component.scss'
 })
 export class AuthComponent {
   private readonly _fb: FormBuilder = inject(FormBuilder);

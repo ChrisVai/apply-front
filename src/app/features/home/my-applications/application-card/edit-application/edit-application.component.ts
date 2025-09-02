@@ -18,11 +18,10 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 
 @Component({
-  selector: 'app-edit-application',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './edit-application.component.html',
-  styleUrl: './edit-application.component.scss',
+    selector: 'app-edit-application',
+    imports: [ReactiveFormsModule],
+    templateUrl: './edit-application.component.html',
+    styleUrl: './edit-application.component.scss'
 })
 export class EditApplicationComponent {
   /**
