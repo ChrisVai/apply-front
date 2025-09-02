@@ -5,11 +5,7 @@ import {
   inject,
   input,
   InputSignal,
-  output,
-  OutputEmitterRef,
   Signal,
-  signal,
-  WritableSignal,
 } from '@angular/core';
 import {
   ApplicationModel,
@@ -34,15 +30,21 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './application-card.component.scss',
 })
 export class ApplicationCardComponent {
+  /**
+   * Input
+   */
   application: InputSignal<ApplicationModel> =
     input.required<ApplicationModel>();
-  refreshApplicationsOutput: OutputEmitterRef<void> = output<void>();
-
+  /**
+   * Dependencies
+   * @private
+   */
   private readonly _applicationService: ApplicationService =
     inject(ApplicationService);
   private readonly _destroyRef: DestroyRef = inject(DestroyRef);
-
-  applicationDeleted: WritableSignal<boolean> = signal<boolean>(false);
+  /**
+   * Status Class for Tailwind: matching Status with chip's color
+   */
   statusClass: Signal<string> = computed(() => {
     switch (this.application().status) {
       case Status.applied:
@@ -58,15 +60,14 @@ export class ApplicationCardComponent {
         return 'text-app-blue-400';
     }
   });
-
+  /**
+   * Booleans for display
+   */
   showComments: boolean = false;
   showEditor: boolean = false;
-
-  spreadApplicationModifiedEvent() {
-    this.refreshApplicationsOutput.emit();
-    this.closeEditor();
-  }
-
+  /**
+   * Functions
+   */
   closeEditor() {
     this.showEditor = false;
   }
@@ -76,12 +77,12 @@ export class ApplicationCardComponent {
       .deleteApplicationById(id)
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
-        next: () => {
-          this.applicationDeleted.set(true);
-          this.refreshApplicationsOutput.emit();
-        },
+        //todo gèrer les érreurs
         error: () => console.error('application non supprimée'),
-        complete: () => console.log('application supprimée'),
+        complete: () => {
+          this._applicationService.refreshApplications();
+          this.closeEditor();
+        },
       });
   }
 }
