@@ -105,14 +105,13 @@ export class EditApplicationComponent {
       .updateApplicationById(id, modifiedApplication)
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
-        next: () => {
+        complete: () => {
           this.closeEditor();
           this._applicationService.refreshApplications();
         },
         //todo gérer les erreurs
         error: err =>
           console.error("l'application n'a pas pu se mettre à jour", err),
-        complete: () => this.closeEditor(),
       });
   }
 
