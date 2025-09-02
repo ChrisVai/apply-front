@@ -1,10 +1,4 @@
-import {
-  Component,
-  input,
-  InputSignal,
-  output,
-  OutputEmitterRef,
-} from '@angular/core';
+import { Component, input, InputSignal } from '@angular/core';
 import { ApplicationCardComponent } from './application-card/application-card.component';
 import { ApplicationModel } from '../../../shared/models/applicationModel';
 
@@ -16,12 +10,9 @@ import { ApplicationModel } from '../../../shared/models/applicationModel';
   styleUrl: './my-applications.component.scss',
 })
 export class MyApplicationsComponent {
+  /**
+   * Input
+   */
   myApplications: InputSignal<ApplicationModel[]> =
     input.required<ApplicationModel[]>();
-
-  refreshApplicationsOutput: OutputEmitterRef<void> = output<void>();
-
-  spreadApplicationDeletedEvent() {
-    this.refreshApplicationsOutput.emit();
-  }
 }
