@@ -26,11 +26,10 @@ import { map } from 'rxjs';
 import { CompanyService } from '../../../shared/services/company/company.service';
 
 @Component({
-  selector: 'app-add-application',
-  standalone: true,
-  imports: [ButtonComponent, ReactiveFormsModule],
-  templateUrl: './add-application.component.html',
-  styleUrl: './add-application.component.scss',
+    selector: 'app-add-application',
+    imports: [ButtonComponent, ReactiveFormsModule],
+    templateUrl: './add-application.component.html',
+    styleUrl: './add-application.component.scss'
 })
 export class AddApplicationComponent {
   /**

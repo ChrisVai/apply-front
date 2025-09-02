@@ -6,11 +6,10 @@ import { RouterLink } from '@angular/router';
 import { UserModel } from '../../models/userModel';
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [NgOptimizedImage, ButtonComponent, RouterLink],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss',
+    selector: 'app-header',
+    imports: [NgOptimizedImage, ButtonComponent, RouterLink],
+    templateUrl: './header.component.html',
+    styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
   private readonly _authService: AuthService = inject(AuthService);

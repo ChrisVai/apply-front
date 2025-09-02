@@ -22,17 +22,16 @@ import { map } from 'rxjs';
 import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-create-account',
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    ButtonComponent,
-    RouterLink,
-    NgClass,
-  ],
-  templateUrl: './create-account.component.html',
-  styleUrl: './create-account.component.scss',
+    selector: 'app-create-account',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        ButtonComponent,
+        RouterLink,
+        NgClass,
+    ],
+    templateUrl: './create-account.component.html',
+    styleUrl: './create-account.component.scss'
 })
 export class CreateAccountComponent {
   private readonly _fb: FormBuilder = inject(FormBuilder);

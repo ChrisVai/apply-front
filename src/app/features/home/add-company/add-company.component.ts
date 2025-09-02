@@ -14,11 +14,10 @@ import { CompanyService } from '../../../shared/services/company/company.service
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'app-add-company',
-  standalone: true,
-  imports: [ButtonComponent, ReactiveFormsModule],
-  templateUrl: './add-company.component.html',
-  styleUrl: './add-company.component.scss',
+    selector: 'app-add-company',
+    imports: [ButtonComponent, ReactiveFormsModule],
+    templateUrl: './add-company.component.html',
+    styleUrl: './add-company.component.scss'
 })
 export class AddCompanyComponent {
   /**

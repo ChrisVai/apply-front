@@ -15,11 +15,10 @@ import { ApplicationService } from '../../../shared/services/application/applica
 import { SectorService } from '../../../shared/services/sector/sector.service';
 
 @Component({
-  selector: 'app-tool-bar',
-  standalone: true,
-  imports: [ReactiveFormsModule, StatusChipsBtnComponent],
-  templateUrl: './tool-bar.component.html',
-  styleUrl: './tool-bar.component.scss',
+    selector: 'app-tool-bar',
+    imports: [ReactiveFormsModule, StatusChipsBtnComponent],
+    templateUrl: './tool-bar.component.html',
+    styleUrl: './tool-bar.component.scss'
 })
 export class ToolBarComponent {
   /**

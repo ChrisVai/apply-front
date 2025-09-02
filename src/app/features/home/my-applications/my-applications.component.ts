@@ -3,11 +3,10 @@ import { ApplicationCardComponent } from './application-card/application-card.co
 import { ApplicationModel } from '../../../shared/models/applicationModel';
 
 @Component({
-  selector: 'app-my-applications',
-  standalone: true,
-  imports: [ApplicationCardComponent],
-  templateUrl: './my-applications.component.html',
-  styleUrl: './my-applications.component.scss',
+    selector: 'app-my-applications',
+    imports: [ApplicationCardComponent],
+    templateUrl: './my-applications.component.html',
+    styleUrl: './my-applications.component.scss'
 })
 export class MyApplicationsComponent {
   /**
