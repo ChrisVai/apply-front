@@ -5,7 +5,11 @@ import {
   Signal,
   WritableSignal,
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  httpResource,
+  HttpResourceRef,
+} from '@angular/common/http';
 import { environment } from '../../../../environments/environment.development';
 import { ApplicationModel, Status } from '../../models/applicationModel';
 import { BehaviorSubject, Observable, switchMap, tap, map } from 'rxjs';
@@ -29,29 +33,11 @@ export class ApplicationService {
   private readonly _apiUrlApplications: string =
     environment.apiUrl + '/applications';
   /**
-   * Triggers
-   * @private
-   */
-  private _refreshApplicationsTrigger$: BehaviorSubject<void> =
-    new BehaviorSubject<void>(undefined);
   /**
    * Public properties
    */
-  currentUserApplications$: Observable<ApplicationModel[]> =
-    this._refreshApplicationsTrigger$.pipe(
-      switchMap(() =>
-        //to get newer applications at the beginning of the array
-        this.getCurrentUserApplications().pipe(
-          map(applications => applications.reverse()),
-          //counting Applications by status
-          tap(applications => this.countApplicationsByStatus(applications))
-        )
-      )
-    );
-  currentUserApplicationsSignal: Signal<ApplicationModel[]> = toSignal(
-    this.currentUserApplications$,
-    { initialValue: [] }
-  );
+  currentUserApplicationResource: HttpResourceRef<ApplicationModel[]> =
+    this.getCurrentUserApplicationsResource();
   applicationsTotalCount: WritableSignal<number> = signal<number>(0);
   countApplicationsToApply: WritableSignal<number> = signal<number>(0);
   countApplicationsClosed: WritableSignal<number> = signal<number>(0);
@@ -70,7 +56,7 @@ export class ApplicationService {
     this.countApplicationsToRelaunch.set(0);
     this.countApplicationsRelaunched.set(0);
     // Trig the refresh
-    this._refreshApplicationsTrigger$.next();
+    this.currentUserApplicationResource.reload();
   }
 
   countApplicationsByStatus(applications: ApplicationModel[]) {
@@ -94,11 +80,20 @@ export class ApplicationService {
       }
     }
   }
+  getCurrentUserApplicationsResource() {
+    const currentUserApplicationsRef =
+      this.fetchCurrentUserApplicationsResource();
+    this.countApplicationsByStatus(currentUserApplicationsRef.value());
+    return currentUserApplicationsRef;
+  }
 
-  getCurrentUserApplications(): Observable<ApplicationModel[]> {
-    return this._http.get<ApplicationModel[]>(
-      `${this._apiUrlApplications}/me/${this._storageService.getUserId()}`,
-      { withCredentials: true }
+  fetchCurrentUserApplicationsResource() {
+    return httpResource<ApplicationModel[]>(
+      () =>
+        `${this._apiUrlApplications}/me/${this._storageService.getUserId()}`,
+      {
+        defaultValue: [],
+      }
     );
   }
 

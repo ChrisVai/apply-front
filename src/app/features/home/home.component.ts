@@ -15,16 +15,16 @@ import { ToolBarComponent } from './tool-bar/tool-bar.component';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-home',
-    imports: [
-        AddApplicationComponent,
-        AddCompanyComponent,
-        MyApplicationsComponent,
-        ToolBarComponent,
-        FormsModule,
-    ],
-    templateUrl: './home.component.html',
-    styleUrl: './home.component.scss'
+  selector: 'app-home',
+  imports: [
+    AddApplicationComponent,
+    AddCompanyComponent,
+    MyApplicationsComponent,
+    ToolBarComponent,
+    FormsModule,
+  ],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss',
 })
 export class HomeComponent {
   /**
@@ -36,19 +36,21 @@ export class HomeComponent {
   /**
    * Data as Signals
    */
-  myApplicationsSignal: Signal<ApplicationModel[]> =
-    this._applicationService.currentUserApplicationsSignal;
+  myApplications: WritableSignal<ApplicationModel[]> =
+    this._applicationService.currentUserApplicationResource.value;
   /**
    * Filtered Applications signals
    * @private
    */
   private statusFilteredApplicationSignal: Signal<ApplicationModel[]> =
     computed(() =>
-      this.myApplicationsSignal().filter(application =>
-        application.status
-          .toLowerCase()
-          .includes(this.filterValue().toLowerCase())
-      )
+      this.myApplications()
+        .reverse()
+        .filter(application =>
+          application.status
+            .toLowerCase()
+            .includes(this.filterValue().toLowerCase())
+        )
     );
   private categoryAndStatusFilteredApplicationSignal: Signal<
     ApplicationModel[]
