@@ -16,17 +16,18 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DatePipe } from '@angular/common';
 import { EditApplicationComponent } from './edit-application/edit-application.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AlertService } from '../../../../shared/services/alert/alert.service';
 
 @Component({
-    selector: 'app-application-card',
-    imports: [
-        DatePipe,
-        EditApplicationComponent,
-        FormsModule,
-        ReactiveFormsModule,
-    ],
-    templateUrl: './application-card.component.html',
-    styleUrl: './application-card.component.scss'
+  selector: 'app-application-card',
+  imports: [
+    DatePipe,
+    EditApplicationComponent,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
+  templateUrl: './application-card.component.html',
+  styleUrl: './application-card.component.scss',
 })
 export class ApplicationCardComponent {
   /**
@@ -40,6 +41,7 @@ export class ApplicationCardComponent {
    */
   private readonly _applicationService: ApplicationService =
     inject(ApplicationService);
+  private readonly _alertService: AlertService = inject(AlertService);
   private readonly _destroyRef: DestroyRef = inject(DestroyRef);
   /**
    * Status Class for Tailwind: matching Status with chip's color
@@ -76,11 +78,13 @@ export class ApplicationCardComponent {
       .deleteApplicationById(id)
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
-        //todo gèrer les érreurs
-        error: () => console.error('application non supprimée'),
+        error: () => {
+          this._alertService.TriggerErrorAlert('Erreur lors de la suppression');
+        },
         complete: () => {
           this._applicationService.refreshApplications();
           this.closeEditor();
+          this._alertService.TriggerSuccessAlert('Candidature supprimée');
         },
       });
   }

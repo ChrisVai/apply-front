@@ -12,3 +12,7 @@
     <app-my-applications [myApplications]="filteredApplicationsSignal()" />
   </div>
 </div>
+@if(showAlertTrigger()) {
+  <app-alert-pop-up/>
+}
+
