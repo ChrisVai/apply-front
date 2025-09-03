@@ -24,12 +24,13 @@ import { SectorModel } from '../../../shared/models/sectorModel';
 import { SectorService } from '../../../shared/services/sector/sector.service';
 import { map } from 'rxjs';
 import { CompanyService } from '../../../shared/services/company/company.service';
+import { AlertService } from '../../../shared/services/alert/alert.service';
 
 @Component({
-    selector: 'app-add-application',
-    imports: [ButtonComponent, ReactiveFormsModule],
-    templateUrl: './add-application.component.html',
-    styleUrl: './add-application.component.scss'
+  selector: 'app-add-application',
+  imports: [ButtonComponent, ReactiveFormsModule],
+  templateUrl: './add-application.component.html',
+  styleUrl: './add-application.component.scss',
 })
 export class AddApplicationComponent {
   /**
@@ -46,6 +47,7 @@ export class AddApplicationComponent {
   private readonly _sectorService: SectorService = inject(SectorService);
   private readonly _companyService: CompanyService = inject(CompanyService);
   private readonly _authService: AuthService = inject(AuthService);
+  private readonly _alertService: AlertService = inject(AlertService);
   private readonly _destroyRef: DestroyRef = inject(DestroyRef);
   private readonly _fb: FormBuilder = inject(FormBuilder);
   /**
@@ -153,19 +155,20 @@ export class AddApplicationComponent {
         .pipe(takeUntilDestroyed(this._destroyRef))
         .subscribe({
           next: () => {
-            this.applicationAddedSignal.set(true);
             this.isAddSectorFieldVisible = false;
             this.addApplicationForm.reset();
           },
           error: err =>
-            //todo gèrer les messages d'erreur
-            console.error('erreur dans la création de la candidature', err),
-          //Refreshing application list once application is added
-          complete: () => this._applicationService.refreshApplications(),
+            this._alertService.TriggerErrorAlert("Erreur lors de l'ajout"),
+          complete: () => {
+            this.applicationAddedSignal.set(true);
+            //Refreshing application list once application is added
+            this._applicationService.refreshApplications();
+            this._alertService.TriggerSuccessAlert('Candidature ajoutée');
+          },
         });
     } else {
-      //todo gèrer les messages d'erreur
-      console.log('impossible, pas de currentUser');
+      this._alertService.TriggerErrorAlert("Erreur lors de l'ajout");
     }
   }
 
@@ -174,18 +177,15 @@ export class AddApplicationComponent {
       .addSector(this.addApplicationForm.controls.addSector.value)
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
+        error: () =>
+          this._alertService.TriggerErrorAlert(
+            "Erreur lors de l'ajout du secteur"
+          ),
         complete: () => {
           this.isAddSectorFieldVisible = false;
           this._sectorService.refreshSectors();
+          this._alertService.TriggerSuccessAlert('Secteur ajouté');
         },
-        //todo gèrer les messages d'erreur
-        error: err =>
-          console.error(
-            'erreur lors de la création du secteur',
-            'value du form:',
-            this.addApplicationForm.controls.sector.value,
-            err
-          ),
       });
   }
 }

@@ -13,18 +13,22 @@ import { ApplicationService } from '../../shared/services/application/applicatio
 import { ApplicationModel } from '../../shared/models/applicationModel';
 import { ToolBarComponent } from './tool-bar/tool-bar.component';
 import { FormsModule } from '@angular/forms';
+import { AlertPopUpComponent } from '../../shared/components/alert-pop-up/alert-pop-up.component';
+import { AlertModel } from '../../shared/models/AlertModel';
+import { AlertService } from '../../shared/services/alert/alert.service';
 
 @Component({
-    selector: 'app-home',
-    imports: [
-        AddApplicationComponent,
-        AddCompanyComponent,
-        MyApplicationsComponent,
-        ToolBarComponent,
-        FormsModule,
-    ],
-    templateUrl: './home.component.html',
-    styleUrl: './home.component.scss'
+  selector: 'app-home',
+  imports: [
+    AddApplicationComponent,
+    AddCompanyComponent,
+    MyApplicationsComponent,
+    ToolBarComponent,
+    FormsModule,
+    AlertPopUpComponent,
+  ],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss',
 })
 export class HomeComponent {
   /**
@@ -33,6 +37,7 @@ export class HomeComponent {
    */
   private readonly _applicationService: ApplicationService =
     inject(ApplicationService);
+  private readonly _alertService: AlertService = inject(AlertService);
   /**
    * Data as Signals
    */
@@ -97,6 +102,7 @@ export class HomeComponent {
    * Boolean for display purpose
    */
   showAddCompanyForm: boolean = false;
+  showAlertTrigger: WritableSignal<boolean> = this._alertService.showAlert;
   /**
    * Functions
    * @param $event

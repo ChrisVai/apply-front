@@ -12,12 +12,13 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CompanyModel } from '../../../shared/models/companyModel';
 import { CompanyService } from '../../../shared/services/company/company.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AlertService } from '../../../shared/services/alert/alert.service';
 
 @Component({
-    selector: 'app-add-company',
-    imports: [ButtonComponent, ReactiveFormsModule],
-    templateUrl: './add-company.component.html',
-    styleUrl: './add-company.component.scss'
+  selector: 'app-add-company',
+  imports: [ButtonComponent, ReactiveFormsModule],
+  templateUrl: './add-company.component.html',
+  styleUrl: './add-company.component.scss',
 })
 export class AddCompanyComponent {
   /**
@@ -29,6 +30,7 @@ export class AddCompanyComponent {
    * @private
    */
   private readonly _companyService: CompanyService = inject(CompanyService);
+  private readonly _alertService: AlertService = inject(AlertService);
   private readonly _destroyRef: DestroyRef = inject(DestroyRef);
   private readonly _fb: FormBuilder = inject(FormBuilder);
   /**
@@ -64,12 +66,18 @@ export class AddCompanyComponent {
       .addCompany(company)
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
-        next: () => {
+        //todo: gerer les erreurs
+        error: () => {
+          this._alertService.TriggerErrorAlert(
+            "L'entreprise n'a pas pu être ajoutée"
+          );
+        },
+        complete: () => {
           this.isCompanyAdded.set(true);
           this._companyService.refreshCompanies();
+          this.closeAddCompanyForm();
+          this._alertService.TriggerSuccessAlert('Entreprise ajoutée');
         },
-        //todo: gerer les erreurs
-        error: () => console.log('erreur'),
       });
   }
 }
